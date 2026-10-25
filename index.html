@@ -900,7 +900,21 @@ applyBallStyle();applyTheme();load(maxStage);
 })();
 </script>
 <script>
-if("serviceWorker" in navigator){addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})}
+if("serviceWorker" in navigator){
+  /* 自動アップデート: 起動時・アプリに戻ったときに新しい版を確認し、見つかったら自動で読み込み直す */
+  var hadCtl=!!navigator.serviceWorker.controller,reloaded=false;
+  navigator.serviceWorker.addEventListener("controllerchange",function(){
+    if(!hadCtl){hadCtl=true;return}
+    if(reloaded)return;reloaded=true;location.reload();
+  });
+  addEventListener("load",function(){
+    navigator.serviceWorker.register("sw.js",{updateViaCache:"none"}).then(function(reg){
+      var chk=function(){reg.update().catch(function(){})};
+      document.addEventListener("visibilitychange",function(){if(!document.hidden)chk()});
+      setInterval(chk,30*60*1000);
+    }).catch(function(){});
+  });
+}
 </script>
 </body>
 </html>

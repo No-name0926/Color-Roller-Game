@@ -1,31 +1,39 @@
-const CACHE = "color-roller-v3";
-const ASSETS = ["./", "./index.html", "./manifest.json", "./icon.png", "./icon-192.png", "./icon-512.png", "./icon-maskable-512.png"];
+/* カラーローラー Service Worker
+   ネットワーク優先: 開けるときは常に最新を取得し、オフラインのときだけ保存済みを使う。
+   このファイルは一度置いたら、以後は書き換えなくても自動で最新版が反映されます。 */
+const CACHE = "color-roller-v1";
 
-self.addEventListener("install", (e) => {
-  e.waitUntil(caches.open(CACHE).then((c) => c.addAll(ASSETS)).then(() => self.skipWaiting()));
-});
+self.addEventListener("install", () => self.skipWaiting());
 
 self.addEventListener("activate", (e) => {
-  e.waitUntil(
-    caches.keys()
-      .then((keys) => Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k))))
-      .then(() => self.clients.claim())
-  );
+  e.waitUntil((async () => {
+    const keys = await caches.keys();
+    await Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k)));
+    await self.clients.claim();
+  })());
 });
 
-// キャッシュ優先 + 裏で更新（次回起動で新しい版になる）
 self.addEventListener("fetch", (e) => {
   const req = e.request;
-  if (req.method !== "GET" || new URL(req.url).origin !== location.origin) return;
-  e.respondWith(
-    caches.match(req, { ignoreSearch: true }).then((hit) => {
-      const net = fetch(req)
-        .then((res) => {
-          if (res && res.ok) { const copy = res.clone(); caches.open(CACHE).then((c) => c.put(req, copy)); }
-          return res;
-        })
-        .catch(() => hit || (req.mode === "navigate" ? caches.match("./index.html") : undefined));
-      return hit || net;
-    })
-  );
+  if (req.method !== "GET") return;
+  const url = new URL(req.url);
+  if (url.origin !== location.origin) return;
+  e.respondWith((async () => {
+    try {
+      const res = await fetch(new Request(req.url, { cache: "no-store" }));
+      if (res && res.ok) {
+        const copy = res.clone();
+        caches.open(CACHE).then((c) => c.put(req, copy)).catch(() => {});
+      }
+      return res;
+    } catch (err) {
+      const hit = await caches.match(req, { ignoreSearch: true });
+      if (hit) return hit;
+      if (req.mode === "navigate") {
+        const idx = (await caches.match("./")) || (await caches.match("index.html"));
+        if (idx) return idx;
+      }
+      throw err;
+    }
+  })());
 });
