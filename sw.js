@@ -1,4 +1,4 @@
-const CACHE = "color-roller-v1";
+const CACHE = "color-roller-v2";
 const ASSETS = ["./", "./index.html", "./manifest.json", "./icon.png", "./icon-192.png", "./icon-512.png"];
 
 self.addEventListener("install", (e) => {
