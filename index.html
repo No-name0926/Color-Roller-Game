@@ -105,26 +105,28 @@ button:focus-visible{outline:3px solid var(--ball);outline-offset:2px}
 .big{background:var(--ink);color:var(--bg);padding:12px 26px;font-size:16px}
 @media (prefers-reduced-motion:reduce){*{animation:none!important}}
 #ovSet{padding:16px 22px}#ovSet .panel{width:min(100%,420px)}
+#ovClear{flex-direction:column;gap:18px;padding-top:calc(16px + 16vh)}.ib.rb{width:58px;height:58px;padding:0;border-radius:50%}.ib.rb svg{width:26px;height:26px}
 .ibs{display:flex;gap:12px;justify-content:center;margin:6px 0 4px}.ib{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;width:104px;height:86px;padding:8px;border-radius:20px;font-size:12px}.ib svg{width:34px;height:34px}
 </style>
 </head>
 <body>
 <canvas id="bgfx"></canvas>
 <div id="app">
-  <div id="top"><div id="title"></div><div id="tot">★ 0</div><button class="ic" id="bSet" aria-label="設定">⚙️</button></div><div id="hud"><div id="stage">1</div><div id="bar"><div id="fill"></div></div><div id="moves"></div></div>
+  <div id="top"><div id="title"></div><div id="tot">★ 0</div><button class="ic" id="bSkip">スキップ</button><button class="ic" id="bSet" aria-label="設定">⚙️</button></div><div id="hud"><div id="stage">1</div><div id="bar"><div id="fill"></div></div><div id="moves"></div></div>
   <div id="wrap"><div id="board"><canvas id="cv"></canvas><div id="ball"><i></i></div></div></div>
   <div id="hint"></div>
   <div id="btns"><button id="bUndo">もどる</button><button id="bReset">やり直し</button><button id="bStages">ステージ</button></div>
 </div>
-<div class="ov" id="ovClear"><div class="panel"><h2 id="cTitle">クリア！</h2><div id="stars"></div><button class="big" id="bNext">次のステージへ</button> <button id="bAgain">もう一回</button></div></div>
-<div class="ov" id="ovSet"><div class="panel st"><h2>せってい</h2><div hidden><button id="bBgm"></button><button id="bSnd"></button></div><div class="ck2"><label class="ck"><input type="checkbox" id="cBgmOn">BGM</label><input type="range" id="rBgm" min="0" max="100"></div><div class="ck2"><label class="ck"><input type="checkbox" id="cSeOn">効果音</label><input type="range" id="rSe" min="0" max="100"></div><div class="row">BGMの曲</div><div class="seg" id="sgBgm"></div><div class="row">効果音</div><div class="seg" id="sgSe"></div><div class="row">たまの柄</div><div class="seg" id="sgPt"></div><div class="row">テーマ<span id="thName"></span></div><div class="seg" id="sgTh"></div><div class="row">演出</div><label class="ck"><input type="checkbox" id="cTilt">画面の傾き</label><label class="ck"><input type="checkbox" id="cShock">壁の衝撃波</label><label class="ck"><input type="checkbox" id="cRed">動きを減らす</label><div class="row">アプリ・シェア</div><div class="ibs"><button class="ib" id="bInstall" style="display:none"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-4.5-4.5M12 15l4.5-4.5M5 20h14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>インストール</span></button><button class="ib" id="bShareX"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg><span>感想を書く</span></button></div><p><button class="big" id="bSetClose">とじる</button></p></div></div><div class="ov" id="ovStages"><div class="panel"><h2>ステージえらび</h2><div id="sTot"></div><div id="grid"></div><p><button id="bClose">とじる</button></p></div></div>
+<div class="ov" id="ovClear"><div class="panel"><h2 id="cTitle">クリア！</h2><div id="stars"></div><button class="big" id="bNext">次のステージへ</button> <button id="bAgain">もう一回</button></div><button class="ib rb" id="bShareClear" aria-label="Xでシェア"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></button></div>
+<div class="ov" id="ovSkip"><div class="panel"><h2>スキップする？</h2><p style="color:var(--sub);font-size:14px;margin:0 0 16px">このステージをとばして次へ進むよ。<br>星はもらえないよ。</p><button class="big" id="bSkipOk">スキップする</button> <button id="bSkipNo">やめる</button></div></div>
+<div class="ov" id="ovSet"><div class="panel st"><h2>せってい</h2><div hidden><button id="bBgm"></button><button id="bSnd"></button></div><div class="ck2"><label class="ck"><input type="checkbox" id="cBgmOn">BGM</label><input type="range" id="rBgm" min="0" max="100"></div><div class="ck2"><label class="ck"><input type="checkbox" id="cSeOn">効果音</label><input type="range" id="rSe" min="0" max="100"></div><div class="row">BGMの曲</div><div class="seg" id="sgBgm"></div><div class="row">効果音</div><div class="seg" id="sgSe"></div><div class="row">たまの柄</div><div class="seg" id="sgPt"></div><div class="row">テーマ<span id="thName"></span></div><div class="seg" id="sgTh"></div><div class="row">演出</div><label class="ck"><input type="checkbox" id="cTilt">画面の傾き</label><label class="ck"><input type="checkbox" id="cShock">壁の衝撃波</label><label class="ck"><input type="checkbox" id="cVib">振動（対応端末のみ）</label><label class="ck"><input type="checkbox" id="cRed">動きを減らす</label><div class="row">アプリ・シェア</div><div class="ibs"><button class="ib" id="bInstall" style="display:none"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-4.5-4.5M12 15l4.5-4.5M5 20h14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>インストール</span></button><button class="ib" id="bShareX"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg><span>感想を書く</span></button></div><p><button class="big" id="bSetClose">とじる</button></p></div></div><div class="ov" id="ovStages"><div class="panel"><h2>ステージえらび</h2><div id="sTot"></div><div id="grid"></div><p><button id="bClose">とじる</button></p></div></div>
 <script>
 (function(){
 var COLORS=["#ff4d6d","#2f80ff","#12b76a","#ff9f1c","#8b5cf6","#00b8d9"];
 var DIRS=[[0,-1],[0,1],[-1,0],[1,0]];
 var STEP=38,MAXS=1000,TH=14,$=function(s){return document.querySelector(s)};
 var board=$("#board"),cv=$("#cv"),ctx=cv.getContext("2d"),ballEl=$("#ball"),ballI=ballEl.firstElementChild;
-var S={bgmVol:70,seVol:100,bgm:0,se:0,sh:0,pt:0,theme:"light",tilt:true,shock:true,reduce:matchMedia("(prefers-reduced-motion:reduce)").matches},RD,seG,STARS={},bgmOn=true,maxStage=1,cur=1,lv,W,H,C=40,pos,painted,shown,cnt,moves,hist,busy,cleared,mute=false,queued=null,fPath,kPath,kArr,dpr=window.devicePixelRatio||1;
+var S={bgmVol:70,seVol:100,bgm:0,se:0,sh:0,pt:0,theme:"light",tilt:true,shock:true,vib:true,reduce:matchMedia("(prefers-reduced-motion:reduce)").matches},RD,seG,STARS={},bgmOn=true,maxStage=1,cur=1,lv,W,H,C=40,pos,painted,shown,cnt,moves,hist,busy,cleared,mute=false,queued=null,fPath,kPath,kArr,dpr=window.devicePixelRatio||1;
 try{maxStage=Math.min(MAXS,parseInt(localStorage.getItem("cr_max"))||1);mute=localStorage.getItem("cr_mute")==="1";bgmOn=localStorage.getItem("cr_bgm")!=="0";STARS=JSON.parse(localStorage.getItem("cr_stars")||"{}");var ss=JSON.parse(localStorage.getItem("cr_set")||"{}");for(var k in ss)S[k]=ss[k]}catch(e){}
 var bgc=$("#bgfx"),bgx=bgc.getContext("2d"),bgP=[],bgM="",bgR=0,bgW=0,bgH=0,bgS=null,bgLast=0,CHR="01";
 function bgInit(){bgW=bgc.width=innerWidth;bgH=bgc.height=innerHeight;bgP=[];var i,n,R=Math.random;
@@ -247,7 +249,7 @@ function setBallCell(i){setBall((i%W)*C,((i/W)|0)*C)}
 function starStr(n){return "★★★".slice(0,n)+"☆☆☆".slice(0,3-n)}
 function totStars(){var t=0;for(var k in STARS)t+=STARS[k];return t}
 function hud(){
-  $("#stage").textContent="ステージ "+cur;$("#moves").textContent="手数 "+moves+" / "+(lv.par+15);$("#tot").textContent="★ "+totStars();$("#fill").style.width=(cnt/lv.floor*100)+"%";
+  $("#stage").textContent="ステージ "+cur;$("#moves").textContent="手数 "+moves+" / "+(lv.par+15);$("#tot").textContent="★ "+totStars();$("#fill").style.width=(cnt/lv.floor*100)+"%";$("#bSkip").style.display=cur>=MAXS?"none":"";
   $("#hint").textContent=cur<=2?"指をつけたままスワイプ！離さず連続で動かせるよ":(cur===3?"壁にぶつかるまで止まらないよ":"");
 }
 function bestPar(L){var w=L.W,h=L.H,n=w*h,r=rng(cur*131+7),best=L.par,t0=performance.now(),ks=[0,0,0,0],gs=[0,0,0,0];
@@ -368,7 +370,7 @@ function req(di){if(cleared)return;if(busy)queued=di;else move(di)}
 function move(di){
   var d=DIRS[di],x=pos%W,y=(pos/W)|0,n=0;try{ac()}catch(e){}
   while(true){var nx=x+d[0]*(n+1),ny=y+d[1]*(n+1);if(nx<0||ny<0||nx>=W||ny>=H||lv.wall[ny*W+nx])break;n++}
-  if(!n){tone(150,90,.12,"triangle",.25);ballI.classList.remove("nope");void ballI.offsetWidth;ballI.classList.add("nope");return}
+  if(!n){vib(25);tone(150,90,.12,"triangle",.25);ballI.classList.remove("nope");void ballI.offsetWidth;ballI.classList.add("nope");return}
   hist.push({pos:pos,painted:painted.slice(),cnt:cnt,moves:moves});
   busy=true;moves++;
   var path=[];for(var k=1;k<=n;k++)path.push((y+d[1]*k)*W+x+d[0]*k);
@@ -384,7 +386,7 @@ function move(di){
   }
   function finish(){
     for(var i=0;i<n;i++)shown[path[i]]=true;draw();pos=path[n-1];setBallCell(pos);
-    stopSnd(n);ballEl.removeAttribute("data-mv");ballI.classList.remove("mv");ballI.style.transform="";if(!S.reduce){ballI.style.setProperty("--sx",d[0]?".66":"1.34");ballI.style.setProperty("--sy",d[0]?"1.34":".66");if(S.shock)shock(pos,d,n)}if(!S.reduce){ballI.classList.remove("sq");void ballI.offsetWidth;ballI.classList.add("sq")}
+    vib(12);stopSnd(n);ballEl.removeAttribute("data-mv");ballI.classList.remove("mv");ballI.style.transform="";if(!S.reduce){ballI.style.setProperty("--sx",d[0]?".66":"1.34");ballI.style.setProperty("--sy",d[0]?"1.34":".66");if(S.shock)shock(pos,d,n)}if(!S.reduce){ballI.classList.remove("sq");void ballI.offsetWidth;ballI.classList.add("sq")}
     busy=false;
     if(cnt===lv.floor){queued=null;win();return}
     if(queued!==null){var q=queued;queued=null;move(q)}
@@ -392,7 +394,7 @@ function move(di){
   requestAnimationFrame(tick);
 }
 function win(){
-  cleared=true;[523,659,784,1047].forEach(function(f,i){tone(f,f,.28,"triangle",.22,i*.11)});
+  cleared=true;vib([40,60,40,60,100]);[523,659,784,1047].forEach(function(f,i){tone(f,f,.28,"triangle",.22,i*.11)});
   var st=moves<=lv.par+15?3:(moves<=lv.par+40?2:1);
   $("#stars").textContent=starStr(st);if(st>(STARS[cur]||0)){STARS[cur]=st;try{localStorage.setItem("cr_stars",JSON.stringify(STARS))}catch(e){}}$("#tot").textContent="★ "+totStars();
   $("#cTitle").textContent=cur>=MAXS?"全ステージ制覇！":"ステージ "+cur+" クリア！";
@@ -430,6 +432,13 @@ addEventListener("pointermove",function(e){
 addEventListener("pointerup",function(){ax=null});
 addEventListener("pointercancel",function(){ax=null});
 $("#bUndo").onclick=undo;
+$("#bSkip").onclick=function(){if(busy||cur>=MAXS)return;$("#ovSkip").classList.add("on");tone(520,780,.09,"sine",.2)};
+$("#bSkipNo").onclick=function(){$("#ovSkip").classList.remove("on")};
+$("#bSkipOk").onclick=function(){
+  $("#ovSkip").classList.remove("on");if(cur>=MAXS)return;
+  if(cur+1>maxStage){maxStage=cur+1;try{localStorage.setItem("cr_max",maxStage)}catch(e){}}
+  tone(500,800,.1,"sine",.2);load(cur+1);
+};
 $("#bAgain").onclick=function(){$("#ovClear").classList.remove("on");reset()};
 $("#bBgm").style.opacity=bgmOn?1:.4;
 $("#bBgm").onclick=function(){bgmOn=!bgmOn;$("#bBgm").style.opacity=bgmOn?1:.4;try{localStorage.setItem("cr_bgm",bgmOn?"1":"0")}catch(e){}if(bgmOn)startBgm();else stopBgm()};
@@ -453,11 +462,13 @@ function renderSet(){
   var el=$("#sgTh");el.innerHTML="";THEMES.forEach(function(t){var b=document.createElement("button");b.className="th"+(S.theme===t[0]?" on":"");b.style.background=t[2];b.title=t[1];b.setAttribute("aria-label",t[1]);if(t[3]){b.textContent=t[3];b.style.color=t[4];b.style.fontSize="16px"}b.onclick=function(){S.theme=t[0];save();applyTheme();renderSet()};el.appendChild(b);if(S.theme===t[0])$("#thName").textContent="："+t[1]});
   seg("#sgPt",["なし","しま","みずたま","チェック","うず","ランダム"],"pt",applyBallStyle);
   var cb=$("#cBgmOn");cb.checked=bgmOn;cb.onchange=function(){if(cb.checked!==bgmOn)$("#bBgm").click()};var cq=$("#cSeOn");cq.checked=!mute;cq.onchange=function(){if(cq.checked===mute)$("#bSnd").click()};
-  [["cTilt","tilt"],["cShock","shock"],["cRed","reduce"]].forEach(function(p){var c=$("#"+p[0]);c.checked=!!S[p[1]];c.onchange=function(){S[p[1]]=c.checked;save();bgSet(ET);if(!S.tilt||S.reduce){tl.tx=tl.ty=tl.x=tl.y=tl.vx=tl.vy=0;tlApply();ballI.style.transform=""}}});
+  [["cTilt","tilt"],["cShock","shock"],["cVib","vib"],["cRed","reduce"]].forEach(function(p){var c=$("#"+p[0]);c.checked=!!S[p[1]];c.onchange=function(){S[p[1]]=c.checked;save();bgSet(ET);if(!S.tilt||S.reduce){tl.tx=tl.ty=tl.x=tl.y=tl.vx=tl.vy=0;tlApply();ballI.style.transform=""}}});
 }
+$("#cVib").addEventListener("change",function(){if(this.checked)vib(30)});
 $("#rBgm").oninput=function(){S.bgmVol=+this.value;if(bgG)bgG.gain.value=S.bgmVol/70;save()};
 $("#rSe").oninput=function(){S.seVol=+this.value;if(seG)seG.gain.value=S.seVol/100;save()};
 $("#rSe").onchange=function(){stopSnd(3)};
+function vib(p){if(S.vib&&navigator.vibrate){try{navigator.vibrate(p)}catch(e){}}}
 function sndOpen(){tone(520,780,.09,"sine",.2);tone(780,1040,.12,"sine",.18,.07)}
 function sndClose(){tone(780,520,.09,"sine",.18);tone(520,350,.12,"sine",.16,.07)}
 $("#bSet").onclick=function(){renderSet();$("#ovSet").classList.add("on");sndOpen()};
@@ -474,12 +485,13 @@ var isApp=matchMedia("(display-mode:standalone)").matches||navigator.standalone=
 addEventListener("beforeinstallprompt",function(e){e.preventDefault();dip=e;if(!isApp)insB.style.display=""});
 addEventListener("appinstalled",function(){dip=null;insB.style.display="none"});
 insB.onclick=function(){if(!dip)return;var q=dip;dip=null;insB.style.display="none";q.prompt();q.userChoice.then(function(r){if(r&&r.outcome!=="accepted"){dip=q;insB.style.display=""}},function(){})};
-$("#bShareX").onclick=function(){
+function shareX(){
   var url="https://no-name0926.github.io/Color-Roller-Game/";
   var tx="カラーローラーをプレイしたよ！\nステージ"+maxStage+"まで進んで★"+totStars()+"獲得！みんなもぜひやってみて！\n"+url+"\n\n#カラロラ";
   var u="https://x.com/intent/post?text="+encodeURIComponent(tx);
   if(!window.open(u,"_blank","noopener"))location.href=u;
-};
+}
+$("#bShareX").onclick=shareX;$("#bShareClear").onclick=shareX;
 applyBallStyle();applyTheme();load(maxStage);
 })();
 </script>
