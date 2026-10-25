@@ -1,0 +1,16 @@
+{
+  "name": "カラーローラー",
+  "short_name": "カラロラ",
+  "description": "ボールを転がして全部のマスを塗るパズルゲーム",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#faf4e6",
+  "theme_color": "#faf4e6",
+  "lang": "ja",
+  "icons": [
+    { "src": "icon.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}
