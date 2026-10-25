@@ -6,6 +6,8 @@
 <title>カラーローラー</title>
 <link rel="icon" href="icon.png" type="image/png">
 <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="theme-color" content="#faf4e6">
 <style>
 :root{--bg:#faf4e6;--bd:#f1e6cb;--card:#fffdf8;--ink:#5a3b27;--sub:#9a8068;--cookie:#a8744a;--tile:#ffffff;--line:#eadfc8;--ball:#ff4d6d;--c:40px;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -450,6 +452,9 @@ var PTc=0;function applyBallStyle(){var p=S.pt;if(p===5){var Ls=[1,2,3,4].filter
 var cc,ccD=true;function CS(){if(ccD){var s=getComputedStyle(document.documentElement);cc={tile:s.getPropertyValue("--tile"),cookie:s.getPropertyValue("--cookie"),ball:s.getPropertyValue("--ball"),grid:s.getPropertyValue("--grid")};ccD=false}return cc}
 applyBallStyle();applyTheme();load(maxStage);
 })();
+</script>
+<script>
+if("serviceWorker" in navigator){addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})}
 </script>
 </body>
 </html>
