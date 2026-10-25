@@ -8,6 +8,19 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-192.png">
 <meta name="theme-color" content="#faf4e6">
+<meta name="description" content="ボールを転がして全部のマスを塗るパズルゲーム。全1000ステージ！">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="カラーローラー">
+<meta property="og:title" content="カラーローラー">
+<meta property="og:description" content="ボールを転がして全部のマスを塗るパズルゲーム。全1000ステージ！">
+<meta property="og:url" content="https://no-name0926.github.io/Color-Roller-Game/">
+<meta property="og:image" content="https://no-name0926.github.io/Color-Roller-Game/ogp.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="カラーローラー">
+<meta name="twitter:description" content="ボールを転がして全部のマスを塗るパズルゲーム。全1000ステージ！">
+<meta name="twitter:image" content="https://no-name0926.github.io/Color-Roller-Game/ogp.png">
 <style>
 :root{--bg:#faf4e6;--bd:#f1e6cb;--card:#fffdf8;--ink:#5a3b27;--sub:#9a8068;--cookie:#a8744a;--tile:#ffffff;--line:#eadfc8;--ball:#ff4d6d;--c:40px;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -91,6 +104,8 @@ button:focus-visible{outline:3px solid var(--ball);outline-offset:2px}
 #grid button:disabled{opacity:.35;box-shadow:none}
 .big{background:var(--ink);color:var(--bg);padding:12px 26px;font-size:16px}
 @media (prefers-reduced-motion:reduce){*{animation:none!important}}
+#ovSet{padding:16px 22px}#ovSet .panel{width:min(100%,420px)}
+.ibs{display:flex;gap:12px;justify-content:center;margin:6px 0 4px}.ib{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;width:104px;height:86px;padding:8px;border-radius:20px;font-size:12px}.ib svg{width:34px;height:34px}
 </style>
 </head>
 <body>
@@ -102,7 +117,7 @@ button:focus-visible{outline:3px solid var(--ball);outline-offset:2px}
   <div id="btns"><button id="bUndo">もどる</button><button id="bReset">やり直し</button><button id="bStages">ステージ</button></div>
 </div>
 <div class="ov" id="ovClear"><div class="panel"><h2 id="cTitle">クリア！</h2><div id="stars"></div><button class="big" id="bNext">次のステージへ</button> <button id="bAgain">もう一回</button></div></div>
-<div class="ov" id="ovSet"><div class="panel st"><h2>せってい</h2><div hidden><button id="bBgm"></button><button id="bSnd"></button></div><div class="ck2"><label class="ck"><input type="checkbox" id="cBgmOn">BGM</label><input type="range" id="rBgm" min="0" max="100"></div><div class="ck2"><label class="ck"><input type="checkbox" id="cSeOn">効果音</label><input type="range" id="rSe" min="0" max="100"></div><div class="row">BGMの曲</div><div class="seg" id="sgBgm"></div><div class="row">効果音</div><div class="seg" id="sgSe"></div><div class="row">たまの柄</div><div class="seg" id="sgPt"></div><div class="row">テーマ<span id="thName"></span></div><div class="seg" id="sgTh"></div><div class="row">演出</div><label class="ck"><input type="checkbox" id="cTilt">画面の傾き</label><label class="ck"><input type="checkbox" id="cShock">壁の衝撃波</label><label class="ck"><input type="checkbox" id="cRed">動きを減らす</label><p><button class="big" id="bSetClose">とじる</button></p></div></div><div class="ov" id="ovStages"><div class="panel"><h2>ステージえらび</h2><div id="sTot"></div><div id="grid"></div><p><button id="bClose">とじる</button></p></div></div>
+<div class="ov" id="ovSet"><div class="panel st"><h2>せってい</h2><div hidden><button id="bBgm"></button><button id="bSnd"></button></div><div class="ck2"><label class="ck"><input type="checkbox" id="cBgmOn">BGM</label><input type="range" id="rBgm" min="0" max="100"></div><div class="ck2"><label class="ck"><input type="checkbox" id="cSeOn">効果音</label><input type="range" id="rSe" min="0" max="100"></div><div class="row">BGMの曲</div><div class="seg" id="sgBgm"></div><div class="row">効果音</div><div class="seg" id="sgSe"></div><div class="row">たまの柄</div><div class="seg" id="sgPt"></div><div class="row">テーマ<span id="thName"></span></div><div class="seg" id="sgTh"></div><div class="row">演出</div><label class="ck"><input type="checkbox" id="cTilt">画面の傾き</label><label class="ck"><input type="checkbox" id="cShock">壁の衝撃波</label><label class="ck"><input type="checkbox" id="cRed">動きを減らす</label><div class="row">アプリ・シェア</div><div class="ibs"><button class="ib" id="bInstall" style="display:none"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-4.5-4.5M12 15l4.5-4.5M5 20h14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>インストール</span></button><button class="ib" id="bShareX"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg><span>感想を書く</span></button></div><p><button class="big" id="bSetClose">とじる</button></p></div></div><div class="ov" id="ovStages"><div class="panel"><h2>ステージえらび</h2><div id="sTot"></div><div id="grid"></div><p><button id="bClose">とじる</button></p></div></div>
 <script>
 (function(){
 var COLORS=["#ff4d6d","#2f80ff","#12b76a","#ff9f1c","#8b5cf6","#00b8d9"];
@@ -443,13 +458,28 @@ function renderSet(){
 $("#rBgm").oninput=function(){S.bgmVol=+this.value;if(bgG)bgG.gain.value=S.bgmVol/70;save()};
 $("#rSe").oninput=function(){S.seVol=+this.value;if(seG)seG.gain.value=S.seVol/100;save()};
 $("#rSe").onchange=function(){stopSnd(3)};
-$("#bSet").onclick=function(){renderSet();$("#ovSet").classList.add("on")};
-$("#bSetClose").onclick=function(){$("#ovSet").classList.remove("on")};
+function sndOpen(){tone(520,780,.09,"sine",.2);tone(780,1040,.12,"sine",.18,.07)}
+function sndClose(){tone(780,520,.09,"sine",.18);tone(520,350,.12,"sine",.16,.07)}
+$("#bSet").onclick=function(){renderSet();$("#ovSet").classList.add("on");sndOpen()};
+$("#bSetClose").onclick=function(){$("#ovSet").classList.remove("on");sndClose()};
+(function(){var ov=$("#ovSet"),dn=false;ov.addEventListener("pointerdown",function(e){dn=e.target===ov});ov.addEventListener("click",function(e){if(dn&&e.target===ov){ov.classList.remove("on");sndClose()}dn=false})})();
 var TP={mint:["#12b76a","#0ea5a4","#34c38f"],sakura:["#ff6f9f","#f0508a","#ff8fb1"],sky:["#2f80ff","#4aa3ff","#1d6fd8"],lemon:["#f5a800","#ff9f1c","#e0b000"]},TG={space:["#8b5cf6","#ffd23f"],snow:["#38bdf8","#6366f1"],gold:["#d62828","#7a0c2e"],rainbow:["#ff4d6d","#ff9f1c","#ffd93d","#12b76a","#2f80ff","#8b5cf6"],sunset:["#ff8a3d","#ff3d8b"],ocean:["#00b4d8","#3a6cff"],aurora:["#5cffc8","#7a8cff"],candy:["#ff7ac8","#7a9cff"]};
 function ballCol(s){var p=TP[ET];return p?p[(s-1)%p.length]:(TG[ET]?TG[ET][0]:COLORS[(s-1)%COLORS.length])}
 function applyBall(){var r=document.documentElement.style,g=TG[ET];if(g)r.setProperty("--ballbg","linear-gradient(135deg,"+g.join(",")+")");else r.removeProperty("--ballbg");r.setProperty("--ball",ballCol(cur));ccD=true}
 var PTc=0;function applyBallStyle(){var p=S.pt;if(p===5){var Ls=[1,2,3,4].filter(function(x){return x!==PTc});p=Ls[Math.floor(Math.random()*Ls.length)]}PTc=p;ballEl.setAttribute("data-sh",0);ballEl.setAttribute("data-pt",p)}
 var cc,ccD=true;function CS(){if(ccD){var s=getComputedStyle(document.documentElement);cc={tile:s.getPropertyValue("--tile"),cookie:s.getPropertyValue("--cookie"),ball:s.getPropertyValue("--ball"),grid:s.getPropertyValue("--grid")};ccD=false}return cc}
+/* ---------- install & share ---------- */
+var dip=null,insB=$("#bInstall");
+var isApp=matchMedia("(display-mode:standalone)").matches||navigator.standalone===true;
+addEventListener("beforeinstallprompt",function(e){e.preventDefault();dip=e;if(!isApp)insB.style.display=""});
+addEventListener("appinstalled",function(){dip=null;insB.style.display="none"});
+insB.onclick=function(){if(!dip)return;var q=dip;dip=null;insB.style.display="none";q.prompt();q.userChoice.then(function(r){if(r&&r.outcome!=="accepted"){dip=q;insB.style.display=""}},function(){})};
+$("#bShareX").onclick=function(){
+  var url="https://no-name0926.github.io/Color-Roller-Game/";
+  var tx="カラーローラーをプレイしたよ！\nステージ"+maxStage+"まで進んで★"+totStars()+"獲得！みんなもぜひやってみて！\n"+url+"\n\n#カラロラ";
+  var u="https://x.com/intent/post?text="+encodeURIComponent(tx);
+  if(!window.open(u,"_blank","noopener"))location.href=u;
+};
 applyBallStyle();applyTheme();load(maxStage);
 })();
 </script>
