@@ -183,17 +183,17 @@ function gimsFor(s){var a=[];for(var i=0;i<GIM.length;i++)if(s>=GIM[i][1])a.push
 function gimNew(s){for(var i=0;i<GIM.length;i++)if(s>=GIM[i][1]&&s<GIM[i][1]+100)return GIM[i];return null}
 /* one slide. path = cells entered in order (a warp adds its exit cell, flagged in jmp). pure: caller applies nb/sw */
 function slideG(L,pos,di,sw,brk){
-  var W=L.W,H=L.H,x=pos%W,y=(pos/W)|0,cd=di,cur=pos,path=[],dirs=[],jmp=[],ev=[],nb=[],seen={},sw2=sw;
+  var W=L.W,H=L.H,x=pos%W,y=(pos/W)|0,cd=di,cur=pos,path=[],dirs=[],jmp=[],ev=[],nb=[],seen={},vc={},sw2=sw;vc[pos]=1;
   while(true){
     var dd=DIRS[cd],nx=x+dd[0],ny=y+dd[1];
     if(nx<0||ny<0||nx>=W||ny>=H)break;
     var ni=ny*W+nx;
-    if(L.wall[ni]||(brk&&brk[ni])||(nb.length&&nb.indexOf(ni)>=0)||(L.door&&L.door[ni]&&!sw2))break;
+    if(L.wall[ni]||(vc[ni]&&L.arw&&L.arw[ni])||(brk&&brk[ni])||(nb.length&&nb.indexOf(ni)>=0)||(L.door&&L.door[ni]&&!sw2))break;
     if(L.crk&&L.crk[cur]&&!(brk&&brk[cur])&&nb.indexOf(cur)<0){nb.push(cur);ev.push([path.length,"crk",cur])}
-    x=nx;y=ny;cur=ni;path.push(ni);dirs.push(cd);
+    x=nx;y=ny;cur=ni;vc[ni]=1;path.push(ni);dirs.push(cd);
     if(L.swc&&L.swc[ni]&&!sw2){sw2=true;ev.push([path.length-1,"sw",ni])}
     if(L.arw&&L.arw[ni])cd=L.arw[ni]-1;
-    else if(L.wp&&L.wp[ni]){var q=L.wp[ni]-1;x=q%W;y=(q/W)|0;cur=q;path.push(q);dirs.push(cd);jmp.push(path.length-1);ev.push([path.length-1,"wp",q])}
+    else if(L.wp&&L.wp[ni]){var q=L.wp[ni]-1;x=q%W;y=(q/W)|0;cur=q;vc[q]=1;path.push(q);dirs.push(cd);jmp.push(path.length-1);ev.push([path.length-1,"wp",q])}
     else if(L.mud&&L.mud[ni]){ev.push([path.length-1,"mud",ni]);break}
     var key=cur*4+cd;if(seen[key])break;seen[key]=1;
   }
@@ -727,12 +727,15 @@ function move(di){
   path.forEach(function(q){if(!painted[q]){painted[q]=true;cnt++}});
   rs.nb.forEach(function(q){gbrk[q]=true});gsw=rs.sw;
   swoosh(n);hud();if(S.tilt&&!S.reduce){tl.tx=d[0]*3.2;tl.ty=d[1]*3.2;tlKick()}if(!S.reduce){ballI.classList.remove("sq");ballI.classList.add("mv");var ln=Math.min(n,6),al=1.2+ln*.08,thn=.8-ln*.02;ballI.style.transform=d[0]?"scale("+al+","+thn+")":"scale("+thn+","+al+")";ballEl.style.setProperty("--tn",(.7+ln*.3).toFixed(2));ballEl.setAttribute("data-mv",di)}
-  var t0=performance.now(),ms=moveMs(n),done=0,lw=0,evi=0,ev=rs.ev,st0=pos,jm={};rs.jmp.forEach(function(k){jm[k]=1});
+  var lastD=di,t0=performance.now(),ms=moveMs(n),done=0,lw=0,evi=0,ev=rs.ev,st0=pos,jm={};rs.jmp.forEach(function(k){jm[k]=1});
   function tick(now){
     var k=Math.max(0,Math.min(1,(now-t0)/ms)),u=k*n,idx=Math.max(0,Math.min(n-1,Math.floor(u))),fr=k>=1?1:u-idx;
     var fi=idx?path[idx-1]:st0,ti=path[idx],tx=(ti%W)*C,ty=((ti/W)|0)*C,bx,by;
     if(jm[idx]){bx=tx;by=ty}else{var fx=(fi%W)*C,fy=((fi/W)|0)*C;bx=fx+(tx-fx)*fr;by=fy+(ty-fy)*fr}
-    setBall(bx,by);if(!S.reduce&&now-lw>55){lw=now;wind(bx,by,DIRS[rs.dirs[idx]])}
+    setBall(bx,by);
+    /* 矢印で向きが変わったら、たまの伸びる向きと尾も今の進行方向に合わせる */
+    var cdx=rs.dirs[idx];if(cdx!==lastD&&!S.reduce){lastD=cdx;var d3=DIRS[cdx];ballI.style.transform=d3[0]?"scale("+al+","+thn+")":"scale("+thn+","+al+")";ballEl.setAttribute("data-mv",cdx)}
+    if(!S.reduce&&now-lw>55){lw=now;wind(bx,by,DIRS[rs.dirs[idx]])}
     var cp=Math.min(n,Math.floor(u+.5)),ch=false;
     if(cp>done){for(var i=done;i<cp;i++)shown[path[i]]=true;done=cp;ch=true}
     while(evi<ev.length&&cp>ev[evi][0]){gEvent(ev[evi]);evi++;ch=true}
