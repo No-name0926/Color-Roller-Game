@@ -172,6 +172,12 @@ button:focus-visible{outline:3px solid var(--ball);outline-offset:2px}
 #rwE{font-size:54px;animation:rwp .7s}
 @keyframes rwp{0%{transform:scale(.2) rotate(-20deg)}60%{transform:scale(1.25) rotate(8deg)}100%{transform:scale(1)}}
 </style>
+<!-- アクセス解析 (GoatCounter): colorroaller を GoatCounter で登録した「サイトコード」に書き換えてね -->
+<script data-goatcounter="https://colorroaller.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+<script>
+/* ゲーム内の動きを GoatCounter に送る（計測ブロックや未設定でもゲームは止まらない） */
+function track(name,title){try{if(window.goatcounter&&window.goatcounter.count)window.goatcounter.count({path:name,title:title||name,event:true})}catch(e){}}
+</script>
 </head>
 <body>
 <canvas id="bgfx"></canvas>
@@ -876,7 +882,7 @@ function bestPar(L){var w=L.W,h=L.H,n=w*h,r=rng(cur*131+7),best=L.par,t0=perform
 var loaded=false;
 function load(s){
   if(loaded){zoom=1;S.zoom=1;save()}loaded=true;/* ステージが変わるときは倍率をリセット(起動時は前回の倍率を維持) */
-  cur=s;tyT=-1;lv=gen(s);lv.par=lv.g?bestParG(lv):bestPar(lv);W=lv.W;H=lv.H;
+  cur=s;tyT=-1;track("start-"+s,"ステージ"+s+" 開始");lv=gen(s);lv.par=lv.g?bestParG(lv):bestPar(lv);W=lv.W;H=lv.H;
   pickTheme();applyBall();applyBallStyle();
   var out=new Array(W*H).fill(false),st=[];
   for(var i=0;i<W*H;i++){var x=i%W,y=(i/W)|0;if(lv.wall[i]&&(x===0||y===0||x===W-1||y===H-1)){out[i]=true;st.push(i)}}
@@ -1028,10 +1034,10 @@ function move(di){
 }
 function win(){
   cleared=true;$("#cRw").hidden=true;$("#cRw").innerHTML="";[523,659,784,1047].forEach(function(f,i){tone(f,f,.28,"triangle",.22,i*.11)});
-  var st=moves<=lv.par+15?3:(moves<=lv.par+40?2:1);
+  var st=moves<=lv.par+15?3:(moves<=lv.par+40?2:1);track("clear-"+cur,"ステージ"+cur+" クリア");track("stars-"+st,"★"+st+"でクリア");track("moves-"+(moves<=10?"0-10":moves<=20?"11-20":moves<=40?"21-40":"41+"),"クリア時の手数");
   $("#stars").textContent=starStr(st);if(st>(STARS[cur]||0)){STARS[cur]=st;try{localStorage.setItem("cr_stars",JSON.stringify(STARS))}catch(e){}}$("#tN").textContent="★ "+totStars();
   $("#cTitle").textContent=cur>=MAXS?"全ステージ制覇！":"ステージ "+cur+" クリア！";
-  var fin=cur>=MAXS,cm=$("#cMsg");cm.style.display=fin?"block":"none";cm.textContent=fin?"Thank You For Playing! 👑":"";if(fin){try{localStorage.setItem("cr_crown","1")}catch(e){}}
+  var fin=cur>=MAXS,cm=$("#cMsg");cm.style.display=fin?"block":"none";cm.textContent=fin?"Thank You For Playing! 👑":"";if(fin){track("all-clear","全ステージ制覇");try{localStorage.setItem("cr_crown","1")}catch(e){}}
   $("#bNext").style.display=cur>=MAXS?"none":"";
   if(cur<MAXS&&cur+1>maxStage){maxStage=cur+1;try{localStorage.setItem("cr_max",maxStage)}catch(e){}}
   setTimeout(function(){zoom=1;S.zoom=1;save();fit();draw();placeBall((pos%W)*C,((pos/W)|0)*C);
@@ -1237,6 +1243,7 @@ addEventListener("beforeinstallprompt",function(e){e.preventDefault();dip=e;if(!
 addEventListener("appinstalled",function(){dip=null;insB.style.display="none"});
 insB.onclick=function(){if(!dip)return;var q=dip;dip=null;insB.style.display="none";q.prompt();q.userChoice.then(function(r){if(r&&r.outcome!=="accepted"){dip=q;insB.style.display=""}},function(){})};
 function shareX(){
+  track("share-x","Xでシェア");
   var url="https://no-name0926.github.io/Color-Roller-Game/";
   var crowned=false;try{crowned=localStorage.getItem("cr_crown")==="1"}catch(e){}
   var tx=crowned?"カラーローラーを全"+MAXS+"ステージクリアした！👑🎉\n★"+totStars()+"獲得！みんなもぜひやってみて！\n"+url+"\n\n#カラロラ":"カラーローラーをプレイしたよ！\nステージ"+maxStage+"まで進んで★"+totStars()+"獲得！みんなもぜひやってみて！\n"+url+"\n\n#カラロラ";
