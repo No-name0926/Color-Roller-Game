@@ -212,6 +212,18 @@ function track(name,title){try{if(window.goatcounter&&window.goatcounter.count)w
 <div id="rkIn" hidden><p id="rkMe" class="rkp"></p><button class="big" id="rkOnB">ランキングに参加する</button><div id="rkJ" hidden><button id="rkRen">名前を変える</button> <button id="rkOff">参加をやめる</button></div></div>
 <p><button id="rkClose">とじる</button></p></div></div>
 <div class="ov" id="ovLogin"><div class="panel"><h2>🔑 ログイン</h2><p class="rkp">ログインすると、進行状況がクラウドに保存されて、ほかの端末でも続きから遊べるよ。ランキングに出すかどうかは、あとで選べるよ。</p><button class="lgb" id="lgG">Googleでログイン</button><button class="lgb" id="lgX">Xでログイン</button><p><button id="lgClose">とじる</button></p></div></div><div class="ov" id="ovStages"><div class="panel"><h2>ステージえらび</h2><div id="sTot"></div><div id="pager"><button id="pPrev" aria-label="前のページ">＜</button><div id="pNow"><b id="pNum">1</b><small id="pRange"></small></div><button id="pNext" aria-label="次のページ">＞</button></div><div id="grid"></div><p><button id="bClose">とじる</button></p></div></div>
+<div class="ov" id="ovXfer" style="z-index:40"><div class="panel st"><h2>🛠 データ</h2>
+<p class="rkp">ステージ・★・スコアの確認と、書き込み／読み込みができるよ。「コード」はログインなしでも使えるよ。</p>
+<div class="rkp" id="xfInfo" style="text-align:left"></div>
+<label style="text-align:left;display:block;font-weight:700;font-size:14px;margin:8px 0 4px">到達ステージ（1〜1000）</label>
+<input type="number" id="xfStage" min="1" max="1000" style="width:100%;padding:10px;border-radius:12px;border:2px solid var(--line);font:inherit;background:var(--card);color:var(--ink)">
+<label style="text-align:left;display:block;font-weight:700;font-size:14px;margin:12px 0 4px">データコード</label>
+<textarea id="xfCode" rows="4" placeholder="ここにコードを貼り付けて「コードを読み込む」" style="width:100%;padding:10px;border-radius:12px;border:2px solid var(--line);font:12px monospace;background:var(--card);color:var(--ink);user-select:text;-webkit-user-select:text;touch-action:auto"></textarea>
+<div class="ibs" style="flex-wrap:wrap"><button id="xfOut">コードを書き出す</button><button id="xfCopy">コピー</button><button id="xfIn">コードを読み込む</button></div>
+<div class="row">クラウド（Firebase）</div>
+<div class="ibs"><button id="xfCw">クラウドに書き込み</button><button id="xfCr">クラウドから読み込み</button></div>
+<p class="rkp" id="xfMsg"></p>
+<p><button class="big" id="xfClose">とじる</button></p></div></div>
 <div class="ov" id="ovData" style="z-index:30"><div class="panel"><div id="dE" style="font-size:48px;line-height:1.2">⚠️</div><h2 id="dT"></h2><p id="dM" style="color:var(--sub);font-size:14px;margin:0 0 16px;line-height:1.6"></p><button class="big" id="dOk"></button> <button id="dNo">やめる</button></div></div>
 <script src="firebase-config.js"></script>
 <script>
@@ -1154,7 +1166,45 @@ var ET="";
 function pickTheme(){if(S.theme==="auto"){var L=THEMES.slice(1).map(function(t){return t[0]}).filter(function(x){return x!==ET&&isOk("th",x)});ET=L[Math.floor(Math.random()*L.length)]}else{if(!isOk("th",S.theme))S.theme="light";ET=S.theme}document.documentElement.setAttribute("data-theme",ET);bgSet(ET);ccD=true}
 function applyTheme(){pickTheme();if(lv){var q=applyBall;q();draw()}}
 function seg(id,arr,key,cb,lk){var el=$(id);el.innerHTML="";arr.forEach(function(n,i){var b=document.createElement("button"),lm=lk&&lk(i);b.textContent=n+(lm?"🔒":"");b.className=(S[key]===i?"on":"")+(lm?" lk":"");b.onclick=function(){if(lm){toast(lm);tone(200,150,.1,"triangle",.2);return}S[key]=i;save();seg(id,arr,key,cb,lk);cb&&cb(i)};el.appendChild(b)})}
-var dbgN=0;
+var dbgN=0,xN=0;
+/* ---------- 隠しデータ画面（書き込み／読み込み） ---------- */
+function xfCode(){var s="";for(var i=1;i<=MAXS;i++)s+=(STARS[i]||0);return"CR1:"+btoa(JSON.stringify({m:maxStage,s:s}))}
+function xfParse(t){t=(t||"").trim();if(t.indexOf("CR1:")!==0)return null;try{var o=JSON.parse(atob(t.slice(4)));var m=Math.max(1,Math.min(MAXS,parseInt(o.m)||1));return{m:m,s:String(o.s||"")}}catch(e){return null}}
+function xfMsg(t){$("#xfMsg").textContent=t}
+function xfInfo(){var n=totStars();$("#xfInfo").innerHTML="いまの到達ステージ："+maxStage+"<br>★の合計："+n+"<br>スコア："+(maxStage*10000+n)+(RK.user?"<br>ログイン：あり":"<br>ログイン：なし")}
+function xfOpen(){xN=0;xfInfo();$("#xfStage").value=maxStage;$("#xfCode").value="";xfMsg("");$("#ovXfer").classList.add("on");sndOpen()}
+function xfApply(m,s){
+  m=Math.max(1,Math.min(MAXS,m|0||1));var ns={},i,n;
+  for(i=0;i<s.length&&i<MAXS;i++){n=+s[i];if(n>=1&&n<=3)ns[i+1]=n}
+  maxStage=m;STARS=ns;
+  try{localStorage.setItem("cr_max",maxStage);localStorage.setItem("cr_stars",JSON.stringify(STARS));localStorage.setItem("cr_rw",Math.max(0,maxStage-1))}catch(e){}
+  toast("書き込みました。再読み込みします");setTimeout(function(){location.reload()},800)}
+function xfErr(e){var c=e&&e.code||"error";return c==="permission-denied"||c==="firestore/permission-denied"?"クラウドの権限で拒否されたよ（"+c+"）。この場合は「コード」で移せるよ":"クラウドに接続できなかったよ（"+c+"）。「コード」なら使えるよ"}
+$("#xfClose").onclick=function(){$("#ovXfer").classList.remove("on");sndClose()};
+$("#xfOut").onclick=function(){$("#xfCode").value=xfCode();xfMsg("コードを書き出したよ。コピーして、ほかのブラウザで読み込んでね");tone(600,900,.08,"sine",.15)};
+$("#xfCopy").onclick=function(){var t=$("#xfCode").value||xfCode();$("#xfCode").value=t;var ok=false;try{$("#xfCode").select();ok=document.execCommand("copy")}catch(e){}
+  if(!ok&&navigator.clipboard)navigator.clipboard.writeText(t).then(function(){xfMsg("コピーしたよ")},function(){xfMsg("長押ししてコピーしてね")});else xfMsg(ok?"コピーしたよ":"長押ししてコピーしてね")};
+$("#xfIn").onclick=function(){
+  var t=$("#xfCode").value.trim();
+  if(t){var d=xfParse(t);if(!d){xfMsg("コードが正しくないよ");tone(200,150,.1,"triangle",.2);return}xfApply(d.m,d.s);return}
+  var st=parseInt($("#xfStage").value);if(!(st>=1&&st<=MAXS)){xfMsg("ステージは1〜"+MAXS+"で入力してね");return}
+  xfApply(st,(function(){var s="";for(var i=1;i<=MAXS;i++)s+=(STARS[i]||0);return s})())};
+$("#xfCw").onclick=function(){
+  var st=parseInt($("#xfStage").value);if(st>=1&&st<=MAXS&&st!==maxStage){maxStage=st;try{localStorage.setItem("cr_max",maxStage)}catch(e){}xfInfo()}
+  rkLoad(function(){
+    if(!RK.user){xfMsg("ログインしていないよ。クラウドはログインが必要だよ（コードなら使える）");return}
+    var u=RK.user.uid,t=RK.fb.firestore.FieldValue.serverTimestamp(),s="",n=totStars();for(var i=1;i<=MAXS;i++)s+=(STARS[i]||0);
+    var ps=[rkDb().collection("save").doc(u).set({name:RK.name||"",max:maxStage,st:s,t:t})];
+    if(RK.on&&RK.name)ps.push(rkDb().collection("rank").doc(u).set({name:RK.name,stage:maxStage,stars:n,score:maxStage*10000+n,t:t}));
+    Promise.all(ps).then(function(){xfMsg("クラウドに書き込んだよ（ステージ"+maxStage+"・★"+n+"）")},function(e){xfMsg(xfErr(e))})
+  },false,"ログイン")};
+$("#xfCr").onclick=function(){
+  rkLoad(function(){
+    if(!RK.user){xfMsg("ログインしていないよ。クラウドはログインが必要だよ（コードなら使える）");return}
+    rkDb().collection("save").doc(RK.user.uid).get().then(function(d){
+      if(!d.exists){xfMsg("クラウドにデータがないよ");return}
+      var v=d.data();xfApply(v.max||1,v.st||"")},function(e){xfMsg(xfErr(e))})
+  },false,"ログイン")};
 function renderSet(){
   $("#rBgm").value=S.bgmVol;$("#rSe").value=S.seVol;
   seg("#sgBgm",["のんびり","わくわく","ほんわか","ジャズ","テクノ","オルゴール","ロック"],"bgm",function(){bgStep=0;if(AC)bgNext=AC.currentTime+.1;if(bgmOn)startBgm()});
@@ -1170,7 +1220,10 @@ function renderSet(){
     if(lm){b.textContent="🔒";b.style.fontSize="13px";b.style.background="var(--card)";b.title=n+"（"+lm+"）"}
     else if(i===5){b.textContent="🎲";b.style.fontSize="16px";b.style.background="var(--card)"}
     else b.style.background=hl+BG[i]+"var(--ball)";
-    b.onclick=function(){if(lm){toast(lm);tone(200,150,.1,"triangle",.2);return}S.pt=i;save();applyBallStyle();sndPick(i);ptSeg()};
+    b.onclick=function(){
+      /* 隠しコマンド: ランダムを5回 → なし */
+      if(i===5)xN++;else if(i===0&&xN>=5){xN=0;xfOpen();return}else xN=0;
+      if(lm){toast(lm);tone(200,150,.1,"triangle",.2);return}S.pt=i;save();applyBallStyle();sndPick(i);ptSeg()};
     el.appendChild(b);if(S.pt===i)$("#ptName").textContent="："+n})})();
   (function stSeg(){var el=$("#sgSt");el.innerHTML="";SO.forEach(function(v){var b=document.createElement("button");var lm=lockMsg("st",v);b.textContent=STN[v]+(lm?"🔒":"");b.className=(S.st===v?"on":"")+(lm?" lk":"");b.onclick=function(){if(lm){toast(lm);tone(200,150,.1,"triangle",.2);return}S.st=v;save();stSeg();applyStyle();sndPick(v)};el.appendChild(b)})})();
   seg("#sgFind",["光る","点滅","両方","なし"],"find",function(i){sndPick(i)});
