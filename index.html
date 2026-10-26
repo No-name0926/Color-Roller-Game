@@ -178,7 +178,6 @@ button:focus-visible{outline:3px solid var(--ball);outline-offset:2px}
 /* ゲーム内の動きを GoatCounter に送る（計測ブロックや未設定でもゲームは止まらない） */
 function track(name,title){try{if(window.goatcounter&&window.goatcounter.count)window.goatcounter.count({path:name,title:title||name,event:true})}catch(e){}}
 </script>
-<style>#rkList{max-height:38vh;overflow-y:auto;text-align:left;margin:10px 0}.rkr{display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:12px;font-size:14px}.rkr b{width:28px;text-align:center}.rkr span{flex:1;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.rkr small{opacity:.75;white-space:nowrap}.rkr.me{background:rgba(255,200,60,.3)}#ovRank input[type=text]{width:100%;box-sizing:border-box;padding:10px;border-radius:12px;border:2px solid var(--line);font:inherit;margin:6px 0 10px;background:var(--card);color:var(--ink)}</style>
 </head>
 <body>
 <canvas id="bgfx"></canvas>
@@ -192,11 +191,7 @@ function track(name,title){try{if(window.goatcounter&&window.goatcounter.count)w
 <div class="ov" id="ovClear"><div class="panel"><h2 id="cTitle">クリア！</h2><p id="cMsg" style="display:none;margin:0 0 12px;font-weight:800"></p><div id="stars"></div><div id="cRw" hidden></div><button class="big" id="bNext">次のステージへ</button> <button id="bAgain">もう一回</button></div><button class="ib rb" id="bShareClear" aria-label="Xでシェア"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></button></div>
 <div class="ov" id="ovRew"><div class="panel"><div id="rwE">🎁</div><h2 id="rwT"></h2><div id="rwL"></div><button class="big" id="rwUse">つかってみる</button> <button id="rwOk">あとで</button></div></div>
 <div class="ov" id="ovSkip"><div class="panel"><h2>スキップする？</h2><p style="color:var(--sub);font-size:14px;margin:0 0 16px">このステージをとばして次へ進むよ。<br>星はもらえないよ。</p><button class="big" id="bSkipOk">スキップする</button> <button id="bSkipNo">やめる</button></div></div>
-<div class="ov" id="ovSet"><div class="panel st"><h2>せってい</h2><div hidden><button id="bBgm"></button><button id="bSnd"></button></div><div class="ck2"><label class="ck"><input type="checkbox" id="cBgmOn">BGM</label><input type="range" id="rBgm" min="0" max="100"></div><div class="ck2"><label class="ck"><input type="checkbox" id="cSeOn">効果音</label><input type="range" id="rSe" min="0" max="100"></div><div class="row">BGMの曲</div><div class="seg" id="sgBgm"></div><div class="row">効果音</div><div class="seg" id="sgSe"></div><div class="row">たまの柄<span id="ptName"></span></div><div class="seg" id="sgPt"></div><div class="row">テーマ<span id="thName"></span></div><div class="seg" id="sgTh"></div><div class="row">スタイル</div><div class="seg" id="sgSt"></div><div class="row">玉が見つからないとき</div><div class="seg" id="sgFind"></div><div class="row">演出</div><label class="ck"><input type="checkbox" id="cTilt">画面の傾き</label><label class="ck"><input type="checkbox" id="cShock">壁の衝撃波</label><label class="ck"><input type="checkbox" id="cRed">動きを減らす</label><div class="row">アプリ・シェア</div><div class="ibs"><button class="ib" id="bInstall" style="display:none"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-4.5-4.5M12 15l4.5-4.5M5 20h14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>インストール</span></button><button class="ib" id="bShareX"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg><span>感想を書く</span></button><button class="ib" id="bRank"><span style="font-size:26px;line-height:1">🏆</span><span>ランキング</span></button></div><div class="row">データ</div><div class="ibs"><button class="ib" id="bWipe"><span style="font-size:26px;line-height:1">🗑️</span><span>初期化</span></button></div><p><button class="big" id="bSetClose">とじる</button></p></div></div><div class="ov" id="ovRank"><div class="panel"><h2>🏆 ランキング</h2><div id="rkList"></div>
-<div id="rkOut"><button class="big" id="rkJoin">ログイン・参加する</button><div id="rkLg" hidden><p style="font-size:13px;margin:10px 0 6px">ログインすると進行状況がクラウドに自動で保存されるよ。ランキングに出すかは、あとで選べるよ。</p><button id="rkG">Googleでログイン</button> <button id="rkX">X（Twitter）でログイン</button></div></div>
-<div id="rkNm" hidden><p style="font-size:13px;margin:0">ランキングに出す名前（12文字まで）</p><input type="text" id="rkName" maxlength="12" autocomplete="off"><button class="big" id="rkOk">決定</button> <button id="rkNo">やめる</button></div>
-<div id="rkIn" hidden><p id="rkMe" style="margin:0 0 6px;font-weight:700"></p><label class="ck"><input type="checkbox" id="rkOn">ランキングに参加する</label><div><button id="rkRen">名前を変える</button> <button id="rkLo">ログアウト</button></div></div>
-<p><button id="rkClose">とじる</button></p></div></div><div class="ov" id="ovStages"><div class="panel"><h2>ステージえらび</h2><div id="sTot"></div><div id="pager"><button id="pPrev" aria-label="前のページ">＜</button><div id="pNow"><b id="pNum">1</b><small id="pRange"></small></div><button id="pNext" aria-label="次のページ">＞</button></div><div id="grid"></div><p><button id="bClose">とじる</button></p></div></div>
+<div class="ov" id="ovSet"><div class="panel st"><h2>せってい</h2><div hidden><button id="bBgm"></button><button id="bSnd"></button></div><div class="ck2"><label class="ck"><input type="checkbox" id="cBgmOn">BGM</label><input type="range" id="rBgm" min="0" max="100"></div><div class="ck2"><label class="ck"><input type="checkbox" id="cSeOn">効果音</label><input type="range" id="rSe" min="0" max="100"></div><div class="row">BGMの曲</div><div class="seg" id="sgBgm"></div><div class="row">効果音</div><div class="seg" id="sgSe"></div><div class="row">たまの柄<span id="ptName"></span></div><div class="seg" id="sgPt"></div><div class="row">テーマ<span id="thName"></span></div><div class="seg" id="sgTh"></div><div class="row">スタイル</div><div class="seg" id="sgSt"></div><div class="row">玉が見つからないとき</div><div class="seg" id="sgFind"></div><div class="row">演出</div><label class="ck"><input type="checkbox" id="cTilt">画面の傾き</label><label class="ck"><input type="checkbox" id="cShock">壁の衝撃波</label><label class="ck"><input type="checkbox" id="cRed">動きを減らす</label><div class="row">アプリ・シェア</div><div class="ibs"><button class="ib" id="bInstall" style="display:none"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-4.5-4.5M12 15l4.5-4.5M5 20h14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>インストール</span></button><button class="ib" id="bShareX"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg><span>感想を書く</span></button></div><div class="row">データ</div><div class="ibs"><button class="ib" id="bExp"><span style="font-size:26px;line-height:1">📤</span><span>書き出し</span></button><button class="ib" id="bImp"><span style="font-size:26px;line-height:1">📥</span><span>読み込み</span></button><button class="ib" id="bWipe"><span style="font-size:26px;line-height:1">🗑️</span><span>初期化</span></button></div><input type="file" id="fImp" accept=".json,application/json" hidden><p><button class="big" id="bSetClose">とじる</button></p></div></div><div class="ov" id="ovStages"><div class="panel"><h2>ステージえらび</h2><div id="sTot"></div><div id="pager"><button id="pPrev" aria-label="前のページ">＜</button><div id="pNow"><b id="pNum">1</b><small id="pRange"></small></div><button id="pNext" aria-label="次のページ">＞</button></div><div id="grid"></div><p><button id="bClose">とじる</button></p></div></div>
 <div class="ov" id="ovData" style="z-index:30"><div class="panel"><div id="dE" style="font-size:48px;line-height:1.2">⚠️</div><h2 id="dT"></h2><p id="dM" style="color:var(--sub);font-size:14px;margin:0 0 16px;line-height:1.6"></p><button class="big" id="dOk"></button> <button id="dNo">やめる</button></div></div>
 <script>
 (function(){
@@ -1044,7 +1039,7 @@ function win(){
   $("#cTitle").textContent=cur>=MAXS?"全ステージ制覇！":"ステージ "+cur+" クリア！";
   var fin=cur>=MAXS,cm=$("#cMsg");cm.style.display=fin?"block":"none";cm.textContent=fin?"Thank You For Playing! 👑":"";if(fin){track("all-clear","全ステージ制覇");try{localStorage.setItem("cr_crown","1")}catch(e){}}
   $("#bNext").style.display=cur>=MAXS?"none":"";
-  if(cur<MAXS&&cur+1>maxStage){maxStage=cur+1;try{localStorage.setItem("cr_max",maxStage)}catch(e){}}try{rkPush()}catch(e){}
+  if(cur<MAXS&&cur+1>maxStage){maxStage=cur+1;try{localStorage.setItem("cr_max",maxStage)}catch(e){}}
   setTimeout(function(){zoom=1;S.zoom=1;save();fit();draw();placeBall((pos%W)*C,((pos/W)|0)*C);
     var show=function(){$("#ovClear").classList.add("on");if(fin){crownUI();setTimeout(crackers,500)}else rewShow()};
     if(fin)tyRun(show);else show()},350);
@@ -1113,7 +1108,7 @@ $("#bSkip").onclick=function(){if(busy||cur>=MAXS)return;$("#ovSkip").classList.
 $("#bSkipNo").onclick=function(){$("#ovSkip").classList.remove("on")};
 $("#bSkipOk").onclick=function(){
   $("#ovSkip").classList.remove("on");if(cur>=MAXS)return;
-  if(cur+1>maxStage){maxStage=cur+1;try{localStorage.setItem("cr_max",maxStage)}catch(e){}}try{rkPush()}catch(e){}
+  if(cur+1>maxStage){maxStage=cur+1;try{localStorage.setItem("cr_max",maxStage)}catch(e){}}
   tone(500,800,.1,"sine",.2);setTimeout(function(){var nw=chkRew();if(nw)rewToast(nw)},900);load(cur+1);
 };
 $("#bAgain").onclick=function(){$("#ovClear").classList.remove("on");reset()};
@@ -1262,10 +1257,28 @@ var dataCb=null;
 function dataAsk(em,t,m,ok,cb){$("#dE").textContent=em;$("#dT").textContent=t;$("#dM").innerHTML=m;$("#dOk").textContent=ok;dataCb=cb;$("#ovData").classList.add("on");tone(520,780,.09,"sine",.2)}
 $("#dOk").onclick=function(){$("#ovData").classList.remove("on");var c=dataCb;dataCb=null;if(c)c()};
 $("#dNo").onclick=function(){$("#ovData").classList.remove("on");dataCb=null;sndClose()};
+$("#bExp").onclick=function(){
+  var d={};crKeys().forEach(function(k){d[k]=localStorage.getItem(k)});
+  var txt=JSON.stringify({app:"color-roller",v:1,at:new Date().toISOString(),d:d}),nm="color-roller-save.json";
+  try{var f=new File([txt],nm,{type:"application/json"});
+    if(navigator.canShare&&navigator.canShare({files:[f]})){navigator.share({files:[f],title:"カラーローラーのデータ"}).catch(function(){});return}}catch(e){}
+  try{var u=URL.createObjectURL(new Blob([txt],{type:"application/json"})),l=document.createElement("a");l.href=u;l.download=nm;document.body.appendChild(l);l.click();l.remove();setTimeout(function(){URL.revokeObjectURL(u)},4000);toast("データを書き出したよ")}catch(e){toast("書き出しに失敗しました")}
+};
+$("#bImp").onclick=function(){$("#fImp").value="";$("#fImp").click()};
+$("#fImp").onchange=function(){
+  var f=this.files&&this.files[0];if(!f)return;var r=new FileReader();
+  r.onload=function(){
+    var o;try{o=JSON.parse(r.result)}catch(e){}
+    if(!o||o.app!=="color-roller"||!o.d||typeof o.d!=="object"){toast("このファイルは読み込めません");return}
+    dataAsk("📥","データを読み込む？","いまのデータは、読み込むデータで上書きされるよ。","読み込む",function(){
+      try{crKeys().forEach(function(k){localStorage.removeItem(k)});for(var k in o.d)if(k.indexOf("cr_")===0&&typeof o.d[k]==="string")localStorage.setItem(k,o.d[k])}catch(e){toast("読み込みに失敗しました");return}
+      location.reload()})};
+  r.onerror=function(){toast("読み込みに失敗しました")};r.readAsText(f)
+};
 $("#bWipe").onclick=function(){
-  dataAsk("⚠️","データを初期化する？","ステージの進み具合・星・ごほうび・せっていがすべて消えて、最初からになるよ。ログイン中なら、クラウドの保存データとランキングも消えるよ。元にはもどせないよ。","初期化する",function(){
-    var go=function(){try{crKeys().forEach(function(k){localStorage.removeItem(k)})}catch(e){}location.reload()};clearTimeout(rkT);
-    if(RK.user&&RK.fb){RK.synced=false;var d=rkDb(),u=RK.user.uid;Promise.all([d.collection("rank").doc(u).delete(),d.collection("save").doc(u).delete()]).then(go,go)}else go()})
+  dataAsk("⚠️","データを初期化する？","ステージの進み具合・星・ごほうび・せっていがすべて消えて、最初からになるよ。元にはもどせないよ。<br>先に「書き出し」でバックアップできるよ。","初期化する",function(){
+    try{crKeys().forEach(function(k){localStorage.removeItem(k)})}catch(e){}
+    location.reload()})
 };
 /* ---------- 5秒動かないと玉が光ってお知らせ ---------- */
 var lastAct=Date.now(),bgl=document.createElement("div");bgl.id="bglow";document.body.appendChild(bgl);
@@ -1279,42 +1292,6 @@ setInterval(function(){
   if(idle&&fg){var r=ballEl.getBoundingClientRect(),z=Math.max(r.width,18)*1.6;bgl.style.left=(r.left+r.width/2-z/2)+"px";bgl.style.top=(r.top+r.height/2-z/2)+"px";bgl.style.width=bgl.style.height=z+"px";bgl.classList.add("on")}else bgl.classList.remove("on")
 },300);
 ensureOk();applyStyle();applyBallStyle();applyTheme();load(maxStage);try{if(localStorage.getItem("cr_crown")==="1")crownUI()}catch(e){}
-/* ===== ランキング（Firebase）。ゲストでも遊べる／参加は任意 ===== */
-var FBC={apiKey:"AIzaSyDoIE6FYAwq2DaFp-Hr710R77EvODqFDn4",authDomain:"colorroller-29124.firebaseapp.com",projectId:"colorroller-29124",storageBucket:"colorroller-29124.firebasestorage.app",messagingSenderId:"46965887989",appId:"1:46965887989:web:fd6f9246aaa4dc5499c6bc"};/* ←Firebaseコンソールの「ウェブアプリ」の設定値を貼る */
-var RK={on:false,fb:null,user:null,name:"",edit:false,synced:false},rkT;
-try{RK.on=localStorage.getItem("cr_rk")==="1"}catch(e){}
-var NG=["fuck","shit","sex","porn","nazi","rape","kill","死ね","しね","殺","ころす","ちんこ","ちんぽ","まんこ","うんこ","えろ","せっくす","ばか","あほ","きもい","れいぷ","差別","障害","ごみ","かす","くず","ぶす","でぶ","在日","ちょん","ちゃんこ","おっぱい","ち○こ","運営","admin"];
-function rkNorm(s){return s.normalize("NFKC").toLowerCase().replace(/[ァ-ヶ]/g,function(c){return String.fromCharCode(c.charCodeAt(0)-96)}).replace(/[\s._\-・、。!！?？*＊~〜]/g,"")}
-function rkBad(n){n=(n||"").trim();if(n.length<1||n.length>12)return"1〜12文字で入力してね";var k=rkNorm(n);if(/https?:|www\.|@|\.com|\.jp/.test(k))return"リンクやメールは使えないよ";for(var i=0;i<NG.length;i++)if(k.indexOf(rkNorm(NG[i]))>=0)return"使えない言葉が入っているよ";return""}
-function rkLoad(cb,quiet){if(!FBC.apiKey){if(!quiet)toast("ランキングは準備中です");return}if(RK.fb)return cb&&cb();var u=["app","auth","firestore"],i=0;(function nx(){if(i>=u.length){firebase.initializeApp(FBC);RK.fb=firebase;firebase.auth().onAuthStateChanged(function(us){RK.user=us;rkSync()});return cb&&cb()}var s=document.createElement("script");s.src="https://www.gstatic.com/firebasejs/10.14.1/firebase-"+u[i++]+"-compat.js";s.onload=nx;s.onerror=function(){if(!quiet)toast("通信できませんでした")};document.head.appendChild(s)})()}
-function rkDb(){return RK.fb.firestore()}
-function rkSave(){try{localStorage.setItem("cr_rk",RK.on?"1":"0")}catch(e){}}
-function rkUI(){var u=RK.user,nm=!!u&&RK.edit;$("#rkOut").hidden=!!u;$("#rkNm").hidden=!nm;$("#rkIn").hidden=!u||nm;$("#rkOn").checked=RK.on;$("#rkMe").textContent=u?"☁️ ログイン中・進行状況は自動で保存"+(RK.name?"　なまえ："+RK.name:""):"";if(nm)$("#rkName").value=RK.name}
-function rkSync(){var u=RK.user;RK.synced=false;try{localStorage.removeItem("cr_rkp");localStorage.setItem("cr_rku",u?"1":"0")}catch(e){}
- if(!u){RK.name="";RK.on=false;RK.edit=false;rkSave();rkUI();return}
- Promise.all([rkDb().collection("rank").doc(u.uid).get(),rkDb().collection("save").doc(u.uid).get()]).then(function(r){var a=r[0],b=r[1],v=b.exists?b.data():null,ch=false,i,n;
-  if(a.exists){RK.name=a.data().name;RK.on=true}else{RK.name=(v&&v.name)||"";RK.on=false}
-  if(v){if((v.max||1)>maxStage){maxStage=Math.min(MAXS,v.max);ch=true}for(i=0;i<(v.st||"").length&&i<MAXS;i++){n=+v.st[i];if(n>(STARS[i+1]||0)){STARS[i+1]=n;ch=true}}}
-  if(ch){try{localStorage.setItem("cr_max",maxStage);localStorage.setItem("cr_stars",JSON.stringify(STARS))}catch(e){}toast("クラウドのデータを読み込みました");setTimeout(function(){location.reload()},900);return}
-  RK.synced=true;rkSave();rkUI();rkSend();if($("#ovRank").classList.contains("on"))rkList()}).catch(function(){toast("接続できませんでした")})}
-function rkPush(){if(!RK.user||!RK.fb||!RK.synced)return;clearTimeout(rkT);rkT=setTimeout(rkSend,1500)}
-function rkSend(){if(!RK.user||!RK.fb||!RK.synced)return;var u=RK.user.uid,st=maxStage,n=totStars(),t=RK.fb.firestore.FieldValue.serverTimestamp(),str="";for(var i=1;i<=MAXS;i++)str+=(STARS[i]||0);
- if(RK.on&&RK.name)rkDb().collection("rank").doc(u).set({name:RK.name,stage:st,stars:n,score:st*10000+n,t:t}).catch(function(){});rkDb().collection("save").doc(u).set({name:RK.name,max:st,st:str,t:t}).catch(function(){})}
-function rkList(){var el=$("#rkList");if(!RK.fb){el.textContent="よみこみ中…";return}el.textContent="よみこみ中…";
- rkDb().collection("rank").orderBy("score","desc").limit(100).get().then(function(q){el.innerHTML="";var i=0;q.forEach(function(d){i++;var v=d.data(),r=document.createElement("div"),a=document.createElement("b"),n=document.createElement("span"),s=document.createElement("small");r.className="rkr"+(RK.user&&d.id===RK.user.uid?" me":"");a.textContent=i<=3?["🥇","🥈","🥉"][i-1]:i;n.textContent=v.name;s.textContent="ステージ"+v.stage+"　★"+v.stars;r.appendChild(a);r.appendChild(n);r.appendChild(s);el.appendChild(r)});if(!i)el.textContent="まだ誰もいないよ"}).catch(function(){el.textContent="ランキングを読み込めませんでした"})}
-function rkLogin(k){rkLoad(function(){var a=RK.fb.auth(),p=k==="g"?new RK.fb.auth.GoogleAuthProvider():new RK.fb.auth.TwitterAuthProvider();a.signInWithPopup(p).catch(function(e){if(e.code==="auth/popup-blocked"||e.code==="auth/operation-not-supported-in-this-environment"){try{localStorage.setItem("cr_rkp","1")}catch(x){}a.signInWithRedirect(p)}else if(e.code!=="auth/popup-closed-by-user"&&e.code!=="auth/cancelled-popup-request")toast("ログインできませんでした")})})}
-$("#bRank").onclick=function(){rkLoad(function(){$("#ovRank").classList.add("on");rkUI();rkList()})};
-$("#rkClose").onclick=function(){$("#ovRank").classList.remove("on")};
-$("#rkJoin").onclick=function(){$("#rkLg").hidden=false};
-$("#rkG").onclick=function(){rkLogin("g")};$("#rkX").onclick=function(){rkLogin("t")};
-$("#rkOk").onclick=function(){var n=$("#rkName").value.trim(),m=rkBad(n);if(m){toast(m);return}RK.name=n;RK.on=true;RK.edit=false;rkSave();rkSend();rkUI();setTimeout(rkList,900)};
-$("#rkNo").onclick=function(){RK.edit=false;rkUI()};
-$("#rkRen").onclick=function(){RK.edit=true;rkUI()};
-$("#rkOn").onchange=function(){if(this.checked){if(!RK.name){this.checked=false;RK.edit=true;rkUI();return}RK.on=true;rkSave();rkSend();toast("ランキングに参加中")}else{RK.on=false;rkSave();rkDb().collection("rank").doc(RK.user.uid).delete().catch(function(){});toast("ランキングから外れました")}setTimeout(rkList,900)};
-$("#rkLo").onclick=function(){clearTimeout(rkT);RK.fb.auth().signOut();toast("ログアウトしました（この端末のデータはそのまま残るよ）")};
-var rkPend=false,rkU=false;try{rkPend=localStorage.getItem("cr_rkp")==="1";rkU=localStorage.getItem("cr_rku")==="1"}catch(e){}
-if(rkU||rkPend)setTimeout(function(){rkLoad(null,true)},2500);
-
 })();
 </script>
 <script>
