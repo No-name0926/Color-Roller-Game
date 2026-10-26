@@ -183,11 +183,11 @@ function track(name,title){try{if(window.goatcounter&&window.goatcounter.count)w
 <body>
 <canvas id="bgfx"></canvas>
 <div id="app">
-  <div id="top"><div id="title"></div><div id="tot"><span id="tN">★ 0</span><span id="crown" aria-label="全ステージクリアの王冠">👑</span></div><button class="ic" id="bSkip">スキップ</button><button class="ic" id="bSet" aria-label="設定">⚙️</button></div><div id="hud"><div id="stage">1</div><div id="bar"><div id="fill"></div></div><div id="moves"></div></div>
+  <div id="top"><div id="title"></div><div id="tot"><span id="tN">★ 0</span><span id="crown" aria-label="全ステージクリアの王冠">👑</span></div><button class="ic" id="bSkip">スキップ</button><button class="ic" id="bRank2" aria-label="ランキング">🏆</button><button class="ic" id="bSet" aria-label="設定">⚙️</button></div><div id="hud"><div id="stage">1</div><div id="bar"><div id="fill"></div></div><div id="moves"></div></div>
   <div id="wrap"><div id="vp"><div id="board"><canvas id="cv"></canvas><div id="ball"><i></i></div></div></div></div>
   <div id="hint"></div>
   <div id="zbar"><button id="zOut" aria-label="縮小">－</button><button id="zv" aria-label="全体表示にもどす">100%</button><button id="zIn" aria-label="拡大">＋</button><button id="zPan" aria-label="ドラッグで画面を動かす">✋ 移動</button></div>
-  <div id="btns"><button id="bUndo">もどる</button><button id="bReset">やり直し</button><button id="bStages">ステージ</button><button id="bRank2">🏆</button></div>
+  <div id="btns"><button id="bUndo">もどる</button><button id="bReset">やり直し</button><button id="bStages">ステージ</button></div>
 </div>
 <div class="ov" id="ovClear"><div class="panel"><h2 id="cTitle">クリア！</h2><p id="cMsg" style="display:none;margin:0 0 12px;font-weight:800"></p><div id="stars"></div><div id="cRw" hidden></div><button class="big" id="bNext">次のステージへ</button> <button id="bAgain">もう一回</button></div><button class="ib rb" id="bShareClear" aria-label="Xでシェア"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></button></div>
 <div class="ov" id="ovRew"><div class="panel"><div id="rwE">🎁</div><h2 id="rwT"></h2><div id="rwL"></div><button class="big" id="rwUse">つかってみる</button> <button id="rwOk">あとで</button></div></div>
@@ -1288,7 +1288,7 @@ try{RK.on=localStorage.getItem("cr_rk")==="1"}catch(e){}
 var NG=["fuck","shit","sex","porn","nazi","rape","kill","死ね","しね","殺","ころす","ちんこ","ちんぽ","まんこ","うんこ","えろ","せっくす","ばか","あほ","きもい","れいぷ","差別","障害","ごみ","かす","くず","ぶす","でぶ","在日","ちょん","ちゃんこ","おっぱい","ち○こ","運営","admin"];
 function rkNorm(s){return s.normalize("NFKC").toLowerCase().replace(/[ァ-ヶ]/g,function(c){return String.fromCharCode(c.charCodeAt(0)-96)}).replace(/[\s._\-・、。!！?？*＊~〜]/g,"")}
 function rkBad(n){n=(n||"").trim();if(n.length<1||n.length>12)return"1〜12文字で入力してね";var k=rkNorm(n);if(/https?:|www\.|@|\.com|\.jp/.test(k))return"リンクやメールは使えないよ";for(var i=0;i<NG.length;i++)if(k.indexOf(rkNorm(NG[i]))>=0)return"使えない言葉が入っているよ";return""}
-function rkLoad(cb,quiet,w){if(!FBC.apiKey){if(!quiet)toast((w||"ランキング")+"は準備中です");return}if(RK.fb)return cb&&cb();var u=["app","auth","firestore"],i=0;(function nx(){if(i>=u.length){firebase.initializeApp(FBC);RK.fb=firebase;firebase.auth().onAuthStateChanged(function(us){RK.user=us;rkSync()});return cb&&cb()}var s=document.createElement("script");s.src="https://www.gstatic.com/firebasejs/10.14.1/firebase-"+u[i++]+"-compat.js";s.onload=nx;s.onerror=function(){if(!quiet)toast("通信できませんでした")};document.head.appendChild(s)})()}
+function rkLoad(cb,quiet,w){if(!FBC.apiKey){if(!quiet)toast(w==="ログイン"?"ログインは今は使えないよ（準備中）":"ランキングは準備中です");return}if(RK.fb)return cb&&cb();var u=["app","auth","firestore"],i=0;(function nx(){if(i>=u.length){firebase.initializeApp(FBC);RK.fb=firebase;firebase.auth().onAuthStateChanged(function(us){RK.user=us;rkSync()});return cb&&cb()}var s=document.createElement("script");s.src="https://www.gstatic.com/firebasejs/10.14.1/firebase-"+u[i++]+"-compat.js";s.onload=nx;s.onerror=function(){if(!quiet)toast("通信できませんでした")};document.head.appendChild(s)})()}
 function rkDb(){return RK.fb.firestore()}
 function rkSave(){try{localStorage.setItem("cr_rk",RK.on?"1":"0")}catch(e){}}
 function rkUI(){var u=RK.user,nm=!!u&&RK.edit;$("#rkOut").hidden=!!u;$("#rkNm").hidden=!nm;$("#rkIn").hidden=!u||nm;$("#rkOnB").hidden=!!RK.on;$("#rkJ").hidden=!RK.on;$("#bLogin").disabled=!!u;$("#bLoginI").textContent=u?"☁️":"🔑";$("#bLoginT").textContent=u?"ログイン中":"ログイン";$("#bLogout").hidden=!u;
@@ -1300,11 +1300,11 @@ function rkSync(){var u=RK.user;RK.synced=false;if(u)$("#ovLogin").classList.rem
  Promise.all([rkDb().collection("rank").doc(u.uid).get(),rkDb().collection("save").doc(u.uid).get()]).then(function(r){var a=r[0],b=r[1],v=b.exists?b.data():null,ch=false,i,n;
   if(a.exists){RK.name=a.data().name;RK.on=true}else{RK.name=(v&&v.name)||"";RK.on=false}
   if(v){if((v.max||1)>maxStage){maxStage=Math.min(MAXS,v.max);ch=true}for(i=0;i<(v.st||"").length&&i<MAXS;i++){n=+v.st[i];if(n>(STARS[i+1]||0)){STARS[i+1]=n;ch=true}}}
-  if(ch){try{localStorage.setItem("cr_max",maxStage);localStorage.setItem("cr_stars",JSON.stringify(STARS))}catch(e){}toast("クラウドのデータを読み込みました");setTimeout(function(){location.reload()},900);return}
+  if(ch){try{localStorage.setItem("cr_max",maxStage);localStorage.setItem("cr_stars",JSON.stringify(STARS));var cl=Math.max(0,maxStage-1),ov=parseInt(localStorage.getItem("cr_rw"))||0;if(cl>ov)localStorage.setItem("cr_rw",cl)}catch(e){}toast("クラウドのデータを読み込みました");setTimeout(function(){location.reload()},900);return}
   RK.synced=true;rkSave();rkUI();rkSend();if($("#ovRank").classList.contains("on"))rkList()}).catch(function(){toast("接続できませんでした")})}
 function rkPush(){if(!RK.user||!RK.fb||!RK.synced)return;clearTimeout(rkT);rkT=setTimeout(rkSend,1500)}
 function rkSend(){if(!RK.user||!RK.fb||!RK.synced)return;var u=RK.user.uid,st=maxStage,n=totStars(),t=RK.fb.firestore.FieldValue.serverTimestamp(),str="";for(var i=1;i<=MAXS;i++)str+=(STARS[i]||0);
- if(RK.on&&RK.name)rkDb().collection("rank").doc(u).set({name:RK.name,stage:st,stars:n,score:st*10000+n,t:t}).catch(function(){});rkDb().collection("save").doc(u).set({name:RK.name,max:st,st:str,t:t}).catch(function(){})}
+ if(RK.on&&RK.name)rkDb().collection("rank").doc(u).set({name:RK.name,stage:st,stars:n,score:st*10000+n,t:t}).catch(function(){});rkDb().collection("save").doc(u).set({name:RK.name,max:st,st:str,t:t}).catch(function(e){toast("クラウドに保存できませんでした（"+(e.code||"error")+"）")})}
 function rkList(){var el=$("#rkList");if(!RK.fb){el.textContent="よみこみ中…";return}el.textContent="よみこみ中…";
  rkDb().collection("rank").orderBy("score","desc").limit(100).get().then(function(q){el.innerHTML="";var i=0;q.forEach(function(d){i++;var v=d.data(),r=document.createElement("div"),a=document.createElement("b"),n=document.createElement("span"),s=document.createElement("small");r.className="rkr"+(RK.user&&d.id===RK.user.uid?" me":"");a.textContent=i<=3?["🥇","🥈","🥉"][i-1]:i;n.textContent=v.name;s.textContent="ステージ"+v.stage+"・★"+v.stars;r.appendChild(a);r.appendChild(n);r.appendChild(s);el.appendChild(r)});if(!i)el.textContent="まだ誰もいないよ"}).catch(function(){el.textContent="ランキングを読み込めませんでした"})}
 function rkLogin(k){rkLoad(function(){var a=RK.fb.auth(),p=k==="g"?new RK.fb.auth.GoogleAuthProvider():new RK.fb.auth.TwitterAuthProvider();a.signInWithPopup(p).catch(function(e){if(e.code==="auth/popup-blocked"||e.code==="auth/operation-not-supported-in-this-environment"){try{localStorage.setItem("cr_rkp","1")}catch(x){}a.signInWithRedirect(p)}else if(e.code!=="auth/popup-closed-by-user"&&e.code!=="auth/cancelled-popup-request")toast("ログインできませんでした（"+(e.code||"error")+"）")})},false,"ログイン")}
@@ -1323,7 +1323,7 @@ $("#rkOff").onclick=function(){RK.on=false;rkSave();rkDb().collection("rank").do
 $("#bLogout").onclick=function(){clearTimeout(rkT);if(RK.fb)RK.fb.auth().signOut();toast("ログアウトしたよ（この端末のデータはそのまま残るよ）")};
 rkUI();
 var rkPend=false,rkU=false;try{rkPend=localStorage.getItem("cr_rkp")==="1";rkU=localStorage.getItem("cr_rku")==="1"}catch(e){}
-if(rkU||rkPend)setTimeout(function(){rkLoad(null,true)},2500);
+setTimeout(function(){rkLoad(null,true)},1500);document.addEventListener("visibilitychange",function(){if(document.hidden&&RK.user&&RK.synced){clearTimeout(rkT);rkSend()}});
 
 })();
 </script>
