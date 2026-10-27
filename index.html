@@ -181,7 +181,7 @@ button:focus-visible{outline:3px solid var(--ball);outline-offset:2px}
 /* ゲーム内の動きを GoatCounter に送る（計測ブロックや未設定でもゲームは止まらない） */
 function track(name,title){try{if(window.goatcounter&&window.goatcounter.count)window.goatcounter.count({path:name,title:title||name,event:true})}catch(e){}}
 </script>
-<style>button[hidden]{display:none!important}.rkp{font-size:13px;line-height:1.6;margin:8px 0 10px;color:var(--sub)}.rkme{font-weight:800;color:var(--ink)}.lgb{display:block;width:100%;margin:10px 0;padding:14px;font-size:16px;font-weight:800;border-radius:16px}#rkList{max-height:38vh;overflow-y:auto;text-align:left;margin:10px 0}.rkr{display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:12px;font-size:14px}.rkr b{width:28px;text-align:center}.rkr span{flex:1;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.rkr small{opacity:.75;white-space:nowrap}.rkr.me{background:rgba(255,200,60,.3)}#ovRank input[type=text]{width:100%;box-sizing:border-box;padding:10px;border-radius:12px;border:2px solid var(--line);font:inherit;margin:6px 0 10px;background:var(--card);color:var(--ink)}</style>
+<style>button[hidden]{display:none!important}#rkTab{display:flex;gap:6px;margin:6px 0 4px}#ovRank #rkTab button{flex:1;padding:9px 4px;font-size:13px}#ovRank #rkTab button.sel{background:var(--ball);color:#fff}.rkp{font-size:13px;line-height:1.6;margin:8px 0 10px;color:var(--sub)}.rkme{font-weight:800;color:var(--ink)}.lgb{display:block;width:100%;margin:10px 0;padding:14px;font-size:16px;font-weight:800;border-radius:16px}#rkList{max-height:38vh;overflow-y:auto;text-align:left;margin:10px 0}.rkr{display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:12px;font-size:14px}.rkr b{width:28px;text-align:center}.rkr span{flex:1;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.rkr small{opacity:.75;white-space:nowrap}.rkr.me{background:rgba(255,200,60,.3)}#ovRank input[type=text]{width:100%;box-sizing:border-box;padding:10px;border-radius:12px;border:2px solid var(--line);font:inherit;margin:6px 0 10px;background:var(--card);color:var(--ink)}</style>
 <style>
 #rkList{padding:2px}
 .rkmsg{text-align:center;font-weight:800;font-size:16px;color:var(--ink);opacity:.7;padding:26px 0}
@@ -230,7 +230,7 @@ html[data-style="glass"] .rkr.me{box-shadow:inset 0 0 0 2px rgba(255,255,255,.95
 <div class="ov" id="ovClear"><div class="panel"><h2 id="cTitle">クリア！</h2><p id="cMsg" style="display:none;margin:0 0 12px;font-weight:800"></p><div id="stars"></div><div id="cRw" hidden></div><button class="big" id="bNext">次のステージへ</button> <button id="bAgain">もう一回</button></div><button class="ib rb" id="bShareClear" aria-label="Xでシェア"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></button></div>
 <div class="ov" id="ovRew"><div class="panel"><div id="rwE">🎁</div><h2 id="rwT"></h2><div id="rwL"></div><button class="big" id="rwUse">つかってみる</button> <button id="rwOk">あとで</button></div></div>
 <div class="ov" id="ovSkip"><div class="panel"><h2>スキップする？</h2><p style="color:var(--sub);font-size:14px;margin:0 0 16px">このステージをとばして次へ進むよ。<br>星はもらえないよ。</p><button class="big" id="bSkipOk">スキップする</button> <button id="bSkipNo">やめる</button></div></div>
-<div class="ov" id="ovSet"><div class="panel st"><h2>せってい</h2><div hidden><button id="bBgm"></button><button id="bSnd"></button></div><div class="ck2"><label class="ck"><input type="checkbox" id="cBgmOn">BGM</label><input type="range" id="rBgm" min="0" max="100"></div><div class="ck2"><label class="ck"><input type="checkbox" id="cSeOn">効果音</label><input type="range" id="rSe" min="0" max="100"></div><div class="row">BGMの曲</div><div class="seg" id="sgBgm"></div><div class="row">効果音</div><div class="seg" id="sgSe"></div><div class="row">たまの柄<span id="ptName"></span></div><div class="seg" id="sgPt"></div><div class="row">テーマ<span id="thName"></span></div><div class="seg" id="sgTh"></div><div class="row">スタイル</div><div class="seg" id="sgSt"></div><div class="row">玉が見つからないとき</div><div class="seg" id="sgFind"></div><div class="row">演出</div><label class="ck"><input type="checkbox" id="cTilt">画面の傾き</label><label class="ck"><input type="checkbox" id="cShock">壁の衝撃波</label><label class="ck"><input type="checkbox" id="cRed">動きを減らす</label><div class="row">アプリ・シェア</div><div class="ibs"><button class="ib" id="bInstall" style="display:none"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-4.5-4.5M12 15l4.5-4.5M5 20h14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>インストール</span></button><button class="ib" id="bShareX"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg><span>感想を書く</span></button><button class="ib" id="bRank"><span style="font-size:26px;line-height:1">🏆</span><span>ランキング</span></button></div><div class="row">データ</div><div class="ibs"><button class="ib" id="bLogin"><span id="bLoginI" style="font-size:26px;line-height:1">🔑</span><span id="bLoginT">ログイン</span></button><button class="ib" id="bWipe"><span style="font-size:26px;line-height:1">🗑️</span><span>初期化</span></button></div><button id="bLogout" hidden style="display:block;width:100%;margin:10px 0 0;padding:12px;font-size:15px;font-weight:800;border-radius:16px">🚪 ログアウト</button><p><button class="big" id="bSetClose">とじる</button></p></div></div><div class="ov" id="ovRank"><div class="panel"><h2>🏆 ランキング</h2><div id="rkList"></div>
+<div class="ov" id="ovSet"><div class="panel st"><h2>せってい</h2><div hidden><button id="bBgm"></button><button id="bSnd"></button></div><div class="ck2"><label class="ck"><input type="checkbox" id="cBgmOn">BGM</label><input type="range" id="rBgm" min="0" max="100"></div><div class="ck2"><label class="ck"><input type="checkbox" id="cSeOn">効果音</label><input type="range" id="rSe" min="0" max="100"></div><div class="row">BGMの曲</div><div class="seg" id="sgBgm"></div><div class="row">効果音</div><div class="seg" id="sgSe"></div><div class="row">たまの柄<span id="ptName"></span></div><div class="seg" id="sgPt"></div><div class="row">テーマ<span id="thName"></span></div><div class="seg" id="sgTh"></div><div class="row">スタイル</div><div class="seg" id="sgSt"></div><div class="row">玉が見つからないとき</div><div class="seg" id="sgFind"></div><div class="row">演出</div><label class="ck"><input type="checkbox" id="cTilt">画面の傾き</label><label class="ck"><input type="checkbox" id="cShock">壁の衝撃波</label><label class="ck"><input type="checkbox" id="cRed">動きを減らす</label><div class="row">アプリ・シェア</div><div class="ibs"><button class="ib" id="bInstall" style="display:none"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0-4.5-4.5M12 15l4.5-4.5M5 20h14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>インストール</span></button><button class="ib" id="bShareX"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg><span>感想を書く</span></button><button class="ib" id="bRank"><span style="font-size:26px;line-height:1">🏆</span><span>ランキング</span></button></div><div class="row">データ</div><div class="ibs"><button class="ib" id="bLogin"><span id="bLoginI" style="font-size:26px;line-height:1">🔑</span><span id="bLoginT">ログイン</span></button><button class="ib" id="bWipe"><span style="font-size:26px;line-height:1">🗑️</span><span>初期化</span></button></div><button id="bLogout" hidden style="display:block;width:100%;margin:10px 0 0;padding:12px;font-size:15px;font-weight:800;border-radius:16px">🚪 ログアウト</button><p><button class="big" id="bSetClose">とじる</button></p></div></div><div class="ov" id="ovRank"><div class="panel"><h2>🏆 ランキング</h2><div id="rkTab"><button id="rkTbN">ふつう</button><button id="rkTbE">かんたん</button><button id="rkTbA">合計</button></div><div id="rkList"></div>
 <div id="rkOut"><p class="rkp">ログインすると、ランキングに参加できるよ。</p><button class="big" id="rkJoin">ログインする</button></div>
 <div id="rkNm" hidden><p class="rkp">ランキングに出す名前を決めてね（12文字まで）</p><input type="text" id="rkName" maxlength="12" autocomplete="off"><button class="big" id="rkOk">この名前で参加する</button> <button id="rkNo">もどる</button></div>
 <div id="rkIn" hidden><p id="rkMe" class="rkp"></p><button class="big" id="rkOnB">ランキングに参加する</button><div id="rkJ" hidden><button id="rkRen">名前を変える</button> <button id="rkOff">参加をやめる</button></div></div>
@@ -1126,7 +1126,7 @@ function move(di){
 function ezWin(){cleared=true;$("#cRw").hidden=true;$("#cRw").innerHTML="";[523,659,784,1047].forEach(function(f,i){tone(f,f,.28,"triangle",.22,i*.11)});
   var st=moves<=lv.par+15?3:(moves<=lv.par+40?2:1),last=cur>=EZN();
   $("#stars").textContent=starStr(st);if(st>(EZS[cur]||0)){EZS[cur]=st;try{localStorage.setItem("cr_ezs",JSON.stringify(EZS))}catch(e){}}$("#tN").textContent="★ "+ezTot();if(cur<EZN()&&cur+1>ezMax){ezMax=cur+1;try{localStorage.setItem("cr_ezm",ezMax)}catch(e){}}
-  $("#cTitle").textContent="かんたん "+cur+" クリア！";
+  try{rkPush()}catch(e){}$("#cTitle").textContent="かんたん "+cur+" クリア！";
   var cm=$("#cMsg");cm.style.display=last?"block":"none";cm.textContent=last?"Thank You For Playing! 👑":"";$("#bNext").style.display=last?"none":"";
   if(last){$("#cTitle").textContent="かんたん全ステージ制覇！";try{localStorage.setItem("cr_crown_ez","1")}catch(e){}}
   setTimeout(function(){zoom=1;S.zoom=1;save();fit();draw();placeBall((pos%W)*C,((pos/W)|0)*C);
@@ -1241,15 +1241,15 @@ function applyTheme(){pickTheme();if(lv){var q=applyBall;q();draw()}}
 function seg(id,arr,key,cb,lk){var el=$(id);el.innerHTML="";arr.forEach(function(n,i){var b=document.createElement("button"),lm=lk&&lk(i);b.textContent=n+(lm?"🔒":"");b.className=(S[key]===i?"on":"")+(lm?" lk":"");b.onclick=function(){if(lm){toast(lm);tone(200,150,.1,"triangle",.2);return}S[key]=i;save();seg(id,arr,key,cb,lk);cb&&cb(i)};el.appendChild(b)})}
 var dbgN=0,xN=0,nN=0;
 /* ---------- 隠しデータ画面（書き込み／読み込み） ---------- */
-function xfCode(){var s="";for(var i=1;i<=MAXS;i++)s+=(STARS[i]||0);return"CR1:"+btoa(JSON.stringify({m:maxStage,s:s}))}
-function xfParse(t){t=(t||"").trim();if(t.indexOf("CR1:")!==0)return null;try{var o=JSON.parse(atob(t.slice(4)));var m=Math.max(1,Math.min(MAXS,parseInt(o.m)||1));return{m:m,s:String(o.s||"")}}catch(e){return null}}
+function xfCode(){var o={m:maxStage,s:nmStr()};if(ezMax>1||ezTot()>0){o.e=ezMax;o.z=ezStr()}return"CR1:"+btoa(JSON.stringify(o))}
+function xfParse(t){t=(t||"").trim();if(t.indexOf("CR1:")!==0)return null;try{var o=JSON.parse(atob(t.slice(4)));var m=Math.max(1,Math.min(MAXS,parseInt(o.m)||1));return{m:m,s:String(o.s||""),e:o.e==null?null:Math.max(1,parseInt(o.e)||1),z:String(o.z||"")}}catch(e){return null}}
 function xfMsg(t){$("#xfMsg").textContent=t}
-function xfInfo(){var n=totStars();$("#xfInfo").innerHTML="いまの到達ステージ："+maxStage+"<br>★の合計："+n+"<br>スコア："+(maxStage*10000+n)+(RK.user?"<br>ログイン：あり":"<br>ログイン：なし")}
+function xfInfo(){var n=totStars();$("#xfInfo").innerHTML="いまの到達ステージ："+maxStage+"<br>★の合計："+n+"<br>スコア："+(maxStage*10000+n)+"<br>かんたんの到達ステージ："+ezMax+"<br>かんたんの★の合計："+ezTot()+(RK.user?"<br>ログイン：あり":"<br>ログイン：なし")}
 function xfOpen(){xN=0;xfInfo();$("#xfStage").value=maxStage;$("#xfCode").value="";xfMsg("");$("#ovXfer").classList.add("on");sndOpen()}
-function xfApply(m,s){
+function xfApply(m,s,e,z){
   m=Math.max(1,Math.min(MAXS,m|0||1));var ns={},i,n;
   for(i=0;i<s.length&&i<MAXS;i++){n=+s[i];if(n>=1&&n<=3)ns[i+1]=n}
-  maxStage=m;STARS=ns;
+  maxStage=m;STARS=ns;if(e!=null){var ne={},k=0;z=z||"";for(i=0;i<z.length&&i<EZN();i++){n=+z[i];if(n>=1&&n<=3){ne[i+1]=n;k=i+1}}EZS=ne;ezMax=Math.min(EZN(),Math.max(1,e|0,k+1));try{localStorage.setItem("cr_ezs",JSON.stringify(EZS));localStorage.setItem("cr_ezm",ezMax)}catch(x){}}
   try{localStorage.setItem("cr_max",maxStage);localStorage.setItem("cr_stars",JSON.stringify(STARS));localStorage.setItem("cr_rw",Math.max(0,maxStage-1))}catch(e){}
   toast("書き込みました。再読み込みします");setTimeout(function(){location.reload()},800)}
 function xfErr(e){var c=e&&e.code||"error";return c==="permission-denied"||c==="firestore/permission-denied"?"クラウドの権限で拒否されたよ（"+c+"）。この場合は「コード」で移せるよ":"クラウドに接続できなかったよ（"+c+"）。「コード」なら使えるよ"}
@@ -1259,24 +1259,24 @@ $("#xfCopy").onclick=function(){var t=$("#xfCode").value||xfCode();$("#xfCode").
   if(!ok&&navigator.clipboard)navigator.clipboard.writeText(t).then(function(){xfMsg("コピーしたよ")},function(){xfMsg("長押ししてコピーしてね")});else xfMsg(ok?"コピーしたよ":"長押ししてコピーしてね")};
 $("#xfIn").onclick=function(){
   var t=$("#xfCode").value.trim();
-  if(t){var d=xfParse(t);if(!d){xfMsg("コードが正しくないよ");tone(200,150,.1,"triangle",.2);return}xfApply(d.m,d.s);return}
+  if(t){var d=xfParse(t);if(!d){xfMsg("コードが正しくないよ");tone(200,150,.1,"triangle",.2);return}xfApply(d.m,d.s,d.e,d.z);return}
   var st=parseInt($("#xfStage").value);if(!(st>=1&&st<=MAXS)){xfMsg("ステージは1〜"+MAXS+"で入力してね");return}
   xfApply(st,(function(){var s="";for(var i=1;i<=MAXS;i++)s+=(STARS[i]||0);return s})())};
 $("#xfCw").onclick=function(){
   var st=parseInt($("#xfStage").value);if(st>=1&&st<=MAXS&&st!==maxStage){maxStage=st;try{localStorage.setItem("cr_max",maxStage)}catch(e){}xfInfo()}
   rkLoad(function(){
     if(!RK.user){xfMsg("ログインしていないよ。クラウドはログインが必要だよ（コードなら使える）");return}
-    var u=RK.user.uid,t=RK.fb.firestore.FieldValue.serverTimestamp(),s="",n=totStars();for(var i=1;i<=MAXS;i++)s+=(STARS[i]||0);
-    var ps=[rkDb().collection("save").doc(u).set({name:RK.name||"",max:maxStage,st:s,t:t})];
-    if(RK.on&&RK.name)ps.push(rkDb().collection("rank").doc(u).set({name:RK.name,stage:maxStage,stars:n,score:maxStage*10000+n,t:t}));
-    Promise.all(ps).then(function(){xfMsg("クラウドに書き込んだよ（ステージ"+maxStage+"・★"+n+"）")},function(e){xfMsg(xfErr(e))})
+    var u=RK.user.uid,b=rkBuild(RK.fb.firestore.FieldValue.serverTimestamp()),n=totStars();
+    var ps=[rkDb().collection("save").doc(u).set(b.save)];
+    if(RK.on&&RK.name)ps.push(rkDb().collection("rank").doc(u).set(b.rank));
+    Promise.all(ps).then(function(){xfMsg("クラウドに書き込んだよ（ふつう"+maxStage+"・★"+n+" / かんたん"+ezMax+"・★"+ezTot()+"）")},function(e){xfMsg(xfErr(e))})
   },false,"ログイン")};
 $("#xfCr").onclick=function(){
   rkLoad(function(){
     if(!RK.user){xfMsg("ログインしていないよ。クラウドはログインが必要だよ（コードなら使える）");return}
     rkDb().collection("save").doc(RK.user.uid).get().then(function(d){
       if(!d.exists){xfMsg("クラウドにデータがないよ");return}
-      var v=d.data();xfApply(v.max||1,v.st||"")},function(e){xfMsg(xfErr(e))})
+      var v=d.data();xfApply(v.max||1,v.st||"",v.ezm==null?null:v.ezm,v.ez||"")},function(e){xfMsg(xfErr(e))})
   },false,"ログイン")};
 function renderSet(){
   $("#rBgm").value=S.bgmVol;$("#rSe").value=S.seVol;
@@ -1433,7 +1433,7 @@ setInterval(function(){
 ensureOk();applyStyle();applyBallStyle();applyTheme();ezModeUI();load(EZ?ezCur:maxStage);try{if(localStorage.getItem("cr_crown")==="1"||localStorage.getItem("cr_crown_ez")==="1")crownUI()}catch(e){}
 /* ===== ランキング（Firebase）。ゲストでも遊べる／参加は任意 ===== */
 var FBC=window.FBC_CONFIG||{};/* 設定は firebase-config.js（Git管理外）から読み込む */
-var RK={on:false,fb:null,user:null,name:"",edit:false,synced:false},rkT;
+var RK={on:false,fb:null,user:null,name:"",edit:false,synced:false,tab:"n"},rkT,rkSeq=0;
 try{RK.on=localStorage.getItem("cr_rk")==="1"}catch(e){}
 var NG=["fuck","shit","sex","porn","nazi","rape","kill","死ね","しね","殺","ころす","ちんこ","ちんぽ","まんこ","うんこ","せっくす","ばか","あほ","きもい","れいぷ","差別","障害","ごみ","かす","くず","ぶす","でぶ","在日","ちょん","ちゃんこ","おっぱい","ち○こ","運営","admin"];
 function rkNorm(s){return s.normalize("NFKC").toLowerCase().replace(/[ァ-ヶ]/g,function(c){return String.fromCharCode(c.charCodeAt(0)-96)}).replace(/[\s._\-・、。!！?？*＊~〜]/g,"")}
@@ -1449,17 +1449,24 @@ function rkSync(){var u=RK.user;RK.synced=false;if(u)$("#ovLogin").classList.rem
  if(!u){RK.name="";RK.on=false;RK.edit=false;rkSave();rkUI();return}
  Promise.all([rkDb().collection("rank").doc(u.uid).get(),rkDb().collection("save").doc(u.uid).get()]).then(function(r){var a=r[0],b=r[1],v=b.exists?b.data():null,ch=false,i,n;
   if(a.exists){RK.name=a.data().name;RK.on=true}else{RK.name=(v&&v.name)||"";RK.on=false}
-  if(v){if((v.max||1)>maxStage){maxStage=Math.min(MAXS,v.max);ch=true}for(i=0;i<(v.st||"").length&&i<MAXS;i++){n=+v.st[i];if(n>(STARS[i+1]||0)){STARS[i+1]=n;ch=true}}}
-  if(ch){try{localStorage.setItem("cr_max",maxStage);localStorage.setItem("cr_stars",JSON.stringify(STARS));var cl=Math.max(0,maxStage-1),ov=parseInt(localStorage.getItem("cr_rw"))||0;if(cl>ov)localStorage.setItem("cr_rw",cl)}catch(e){}toast("クラウドのデータを読み込みました");setTimeout(function(){location.reload()},900);return}
+  if(v){if((v.max||1)>maxStage){maxStage=Math.min(MAXS,v.max);ch=true}for(i=0;i<(v.st||"").length&&i<MAXS;i++){n=+v.st[i];if(n>(STARS[i+1]||0)){STARS[i+1]=n;ch=true}}
+   var oe=ezMax,k=0,q;if((v.ezm|0)>ezMax)ezMax=Math.min(EZN(),v.ezm|0);for(i=0;i<(v.ez||"").length&&i<EZN();i++){n=+v.ez[i];if(n>=1&&n<=3&&n>(EZS[i+1]||0)){EZS[i+1]=n;ch=true}}for(q in EZS)if(EZS[q]>0)k=Math.max(k,+q);ezMax=Math.min(EZN(),Math.max(ezMax,k+1));if(ezMax>oe)ch=true}
+  if(ch){try{localStorage.setItem("cr_max",maxStage);localStorage.setItem("cr_stars",JSON.stringify(STARS));localStorage.setItem("cr_ezs",JSON.stringify(EZS));localStorage.setItem("cr_ezm",ezMax);var cl=Math.max(0,maxStage-1),ov=parseInt(localStorage.getItem("cr_rw"))||0;if(cl>ov)localStorage.setItem("cr_rw",cl)}catch(e){}toast("クラウドのデータを読み込みました");setTimeout(function(){location.reload()},900);return}
   RK.synced=true;rkSave();rkUI();rkSend();if($("#ovRank").classList.contains("on"))rkList()}).catch(function(){toast("接続できませんでした")})}
 function rkPush(){if(!RK.user||!RK.fb||!RK.synced)return;clearTimeout(rkT);rkT=setTimeout(rkSend,1500)}
-function rkSend(){if(!RK.user||!RK.fb||!RK.synced)return;var u=RK.user.uid,st=maxStage,n=totStars(),t=RK.fb.firestore.FieldValue.serverTimestamp(),str="";for(var i=1;i<=MAXS;i++)str+=(STARS[i]||0);
- if(RK.on&&RK.name)rkDb().collection("rank").doc(u).set({name:RK.name,stage:st,stars:n,score:st*10000+n,t:t}).catch(function(){});rkDb().collection("save").doc(u).set({name:RK.name,max:st,st:str,t:t}).catch(function(e){toast("クラウドに保存できませんでした（"+(e.code||"error")+"）")})}
+function nmStr(){var a="",i;for(i=1;i<=MAXS;i++)a+=(STARS[i]||0);return a}
+function ezStr(){var a="",i;for(i=1;i<=EZN();i++)a+=(EZS[i]||0);return a}
+/* ランキング用(rank)とクラウド保存用(save)のデータを1か所で作る。かんたんに進捗が無い人は ezStage/ezStars/ezScore を付けない */
+function rkBuild(t){var st=maxStage,n=totStars(),em=ezMax,en=ezTot(),hz=em>1||en>0,d={name:RK.name,stage:st,stars:n,score:st*10000+n,t:t};if(hz){d.ezStage=em;d.ezStars=en;d.ezScore=em*10000+en}d.allScore=d.score+(hz?d.ezScore:0);return{rank:d,save:{name:RK.name||"",max:st,st:nmStr(),ezm:em,ez:ezStr(),t:t}}}
+function rkSend(){if(!RK.user||!RK.fb||!RK.synced)return;var u=RK.user.uid,b=rkBuild(RK.fb.firestore.FieldValue.serverTimestamp());
+ if(RK.on&&RK.name)rkDb().collection("rank").doc(u).set(b.rank).catch(function(e){toast("ランキングに送れませんでした（"+(e.code||"error")+"）")});rkDb().collection("save").doc(u).set(b.save).catch(function(e){toast("クラウドに保存できませんでした（"+(e.code||"error")+"）")})}
 function rkMsg(el,t){el.innerHTML="";var d=document.createElement("div");d.className="rkmsg";d.textContent=t;el.appendChild(d)}
-function rkList(){var el=$("#rkList");if(!RK.fb){rkMsg(el,"よみこみ中…");return}rkMsg(el,"よみこみ中…");
- rkDb().collection("rank").orderBy("score","desc").limit(100).get().then(function(q){el.innerHTML="";var i=0;q.forEach(function(d){i++;var v=d.data(),r=document.createElement("div"),a=document.createElement("b"),n=document.createElement("span"),s=document.createElement("small");r.className="rkr"+(i<=3?" t"+i:"")+(RK.user&&d.id===RK.user.uid?" me":"");a.textContent=(i<=3&&!S.st)?["🥇","🥈","🥉"][i-1]:i;n.textContent=v.name;s.textContent="ステージ"+v.stage+"・★"+v.stars;r.appendChild(a);r.appendChild(n);r.appendChild(s);el.appendChild(r)});if(!i)rkMsg(el,"まだ誰もいないよ")}).catch(function(){rkMsg(el,"ランキングを読み込めませんでした")})}
+function rkTabUI(){var m={n:"rkTbN",e:"rkTbE",a:"rkTbA"},k;for(k in m)$("#"+m[k]).className=RK.tab===k?"sel":""}
+function rkList(){var el=$("#rkList"),tab=RK.tab||"n",my=++rkSeq,f={n:"score",e:"ezScore",a:"allScore"}[tab];rkTabUI();if(!RK.fb){rkMsg(el,"よみこみ中…");return}rkMsg(el,"よみこみ中…");
+ rkDb().collection("rank").orderBy(f,"desc").limit(100).get().then(function(q){if(my!==rkSeq)return;el.innerHTML="";var i=0;q.forEach(function(d){i++;var v=d.data(),r=document.createElement("div"),a=document.createElement("b"),n=document.createElement("span"),s=document.createElement("small");r.className="rkr"+(i<=3?" t"+i:"")+(RK.user&&d.id===RK.user.uid?" me":"");a.textContent=(i<=3&&!S.st)?["🥇","🥈","🥉"][i-1]:i;n.textContent=v.name;s.textContent=tab==="e"?"かんたん"+(v.ezStage||0)+"・★"+(v.ezStars||0):tab==="a"?"合計"+((v.stage||0)+(v.ezStage||0))+"・★"+((v.stars||0)+(v.ezStars||0)):"ステージ"+v.stage+"・★"+v.stars;r.appendChild(a);r.appendChild(n);r.appendChild(s);el.appendChild(r)});if(!i)rkMsg(el,"まだ誰もいないよ")}).catch(function(){if(my===rkSeq)rkMsg(el,"ランキングを読み込めませんでした")})}
 function rkLogin(k){rkLoad(function(){var a=RK.fb.auth(),p=k==="g"?new RK.fb.auth.GoogleAuthProvider():new RK.fb.auth.TwitterAuthProvider();a.signInWithPopup(p).catch(function(e){if(e.code==="auth/popup-blocked"||e.code==="auth/operation-not-supported-in-this-environment"){try{localStorage.setItem("cr_rkp","1")}catch(x){}a.signInWithRedirect(p)}else if(e.code!=="auth/popup-closed-by-user"&&e.code!=="auth/cancelled-popup-request")toast("ログインできませんでした（"+(e.code||"error")+"）")})},false,"ログイン")}
-$("#bRank").onclick=function(){rkLoad(function(){$("#ovRank").classList.add("on");rkUI();rkList()})};
+$("#bRank").onclick=function(){rkLoad(function(){RK.tab=EZ?"e":"n";$("#ovRank").classList.add("on");rkUI();rkList()})};
+[["N","n"],["E","e"],["A","a"]].forEach(function(p){$("#rkTb"+p[0]).onclick=function(){RK.tab=p[1];rkList()}});
 $("#bRank2").onclick=$("#bRank").onclick;
 $("#rkClose").onclick=function(){$("#ovRank").classList.remove("on")};
 function lgOpen(){$("#ovLogin").classList.add("on");rkLoad(null,true)}
